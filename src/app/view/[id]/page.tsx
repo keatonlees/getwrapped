@@ -1,5 +1,5 @@
 import React from "react";
-import { getWrapById } from "@/api/movies";
+import { getWrapById } from "@/app/api/movies";
 import ViewContainer from "@/components/ViewContainer";
 
 async function fetchWrapById(id: string) {
