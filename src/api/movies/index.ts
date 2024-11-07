@@ -21,27 +21,19 @@ async function init() {
   await init();
 })();
 
-// export async function getMovies() {
-//   try {
-//     if (!movies) await init();
-//     const result = await movies
-//       .find({})
-//       .limit(10)
-//       // .map((user: any) => ({ ...user, _id: user._id.toString() }))
-//       .toArray();
-
-//     return { movies: result };
-//   } catch (error) {
-//     return { error: `Failed to get movies. ${error}` };
-//   }
-// }
-
-export async function getMovieById(id: string) {
+export async function getWrapById(id: string) {
   try {
     if (!wraps) await init();
     const result = await wraps.findOne({ _id: new mongo.ObjectId(id) });
-    return { wrap: result };
+
+    return {
+      wrap: {
+        title: result?.title,
+        colors: result?.colors,
+        pages: result?.pages,
+      },
+    };
   } catch (error) {
-    return { error: `Failed to get wrap with id: ${id}. ${error}` };
+    return { error: `Failed to get Wrap with id: ${id}. ${error}` };
   }
 }
