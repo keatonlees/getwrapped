@@ -7,7 +7,9 @@ async function fetchWrapById(id: string) {
   return wrap;
 }
 
-const ViewWrap = async ({ params }: { params: { id: string } }) => {
+type Params = Promise<{ id: string }>;
+
+const ViewWrap = async ({ params }: { params: Params }) => {
   const { id } = await params;
   const wrap = await fetchWrapById(id);
 
