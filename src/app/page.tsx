@@ -1,9 +1,10 @@
 "use client";
 
+import { Wrap } from "@/lib/utils/interfaces";
 import React, { useEffect, useState } from "react";
 
 export default function Home() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -17,13 +18,11 @@ export default function Home() {
     <main>
       <h1>Get Wrapped</h1>
 
-      {data
-        ? data.map((wrap) => (
-            <div className="bg-slate-500" key={wrap._id}>
-              {wrap.title}
-            </div>
-          ))
-        : "Loading..."}
+      {data.map((wrap: Wrap) => (
+        <div className="bg-slate-500" key={wrap._id}>
+          {wrap.title}
+        </div>
+      ))}
     </main>
   );
 }
