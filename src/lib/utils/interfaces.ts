@@ -1,5 +1,5 @@
 export interface Wrap {
-  _id: string;
+  _id?: string;
   title: string;
   colors: string[];
   pages: {
