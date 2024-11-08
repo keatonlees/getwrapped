@@ -17,7 +17,7 @@ const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
   const renderSwitch = () => {
     switch (wrap.pages[current].type) {
       case PageType.TITLE:
-        return <TitleTemplate />;
+        return <TitleTemplate page={wrap.pages[current]} />;
       case PageType.CREDITS:
         return <CreditsTemplate />;
       default:

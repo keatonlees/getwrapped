@@ -1,8 +1,11 @@
 export interface Wrap {
-  _id?: string;
+  _id: string;
   title: string;
-  colors: string[];
-  pages: {
-    type: string;
-  }[];
+  pages: Page[];
+}
+
+export interface Page {
+  type: string;
+  bgColor: string;
+  color: string;
 }
