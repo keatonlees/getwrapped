@@ -1,20 +1,23 @@
 import React from "react";
-import { getWrapById } from "@/app/api/movies";
+
+import { baseURL } from "@/lib/utils/constants";
 import ViewContainer from "@/components/ViewContainer";
 
-async function fetchWrapById(id: string) {
-  const { wrap } = await getWrapById(id);
-  return wrap;
-}
+const ViewWrap = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const id = (await params).id;
 
-type Params = Promise<{ id: string }>;
+  let wrap = null;
+  try {
+    const res = await fetch(`${baseURL}/api/wrap/${id}`, {
+      method: "GET",
+    });
+    wrap = await res.json();
+  } catch (e) {
+    console.log(e);
+  }
 
-const ViewWrap = async ({ params }: { params: Params }) => {
-  const { id } = await params;
-  const wrap = await fetchWrapById(id);
-
-  if (!wrap) {
-    return <div>Wrap loading...</div>;
+  if (JSON.stringify(wrap) === "{}") {
+    return <h1>Wrap not found</h1>;
   }
 
   return <ViewContainer wrap={wrap} />;

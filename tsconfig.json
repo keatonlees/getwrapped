@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/api/hello.js", "src/app/api/movies/index.js", "src/lib/mongo/index.ts", "src/app/api/movies/index.ts", "src/lib/mongo/connectToDatabase.js", "src/app/api/wraps/route.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/api/hello.js", "src/app/api/movies/index.js", "src/lib/mongo/index.ts", "src/app/api/movies/index.ts", "src/lib/mongo/connectToDatabase.js", "src/app/api/wraps/route.ts", "src/app/api/wrap/[id]/route.ts"],
   "exclude": ["node_modules"]
 }
