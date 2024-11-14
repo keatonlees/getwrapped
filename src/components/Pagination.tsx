@@ -18,7 +18,7 @@ const Pagination = ({
   const length = wrap.pages.length;
 
   return (
-    <div className="absolute bottom-12">
+    <div className="absolute bottom-4">
       <AnimateIn
         from="opacity-0 translate-y-8"
         to="opacity-100 translate-y-0"
