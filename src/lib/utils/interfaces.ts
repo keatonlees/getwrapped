@@ -12,9 +12,10 @@ export interface Page {
   color: string;
   title?: string;
   subtitle?: string;
-  columns?: Column[];
+  columns?: Cell[];
+  rows?: Cell[];
 }
-interface Column {
+interface Cell {
   title: string;
   content: string;
 }
