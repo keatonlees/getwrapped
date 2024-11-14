@@ -1,17 +1,30 @@
-import { Page } from "@/lib/utils/interfaces";
 import React from "react";
+import { Template } from "@/lib/utils/interfaces";
+import AnimateIn from "@/lib/animations/AnimateIn";
 
-const TitleTemplate = ({ page }: { page: Page }) => {
+const TitleTemplate = ({ wrap, current }: Template) => {
+  const page = wrap.pages[current];
+
   return (
-    <div
-      className="w-full h-dvh flex flex-col items-center justify-center text-center"
-      style={{
-        background: page.bgColor,
-        color: page.color,
-      }}
-    >
-      <h1 className="text-8xl font-bold mb-4">This is a title</h1>
-      <h1 className="text-4xl font-bold">This is a subtitle</h1>
+    <div className="w-full h-dvh flex flex-col items-center justify-center text-center">
+      <AnimateIn
+        from="opacity-0 translate-y-4"
+        to="opacity-100 translate-y-0"
+        delay={250}
+      >
+        <h1 className="font-yeseva text-8xl font-bold text-shadow-p shadow-neutral mb-4">
+          {wrap.title}
+        </h1>
+      </AnimateIn>
+      <AnimateIn
+        from="opacity-0 translate-y-4"
+        to="opacity-100 translate-y-0"
+        delay={500}
+      >
+        <h1 className="font-yeseva text-4xl font-bold text-shadow-psm shadow-neutral">
+          {page.subtitle}
+        </h1>
+      </AnimateIn>
     </div>
   );
 };

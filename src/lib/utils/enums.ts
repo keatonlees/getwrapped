@@ -3,6 +3,10 @@ export enum PageType {
   TITLE = "title",
   COLUMNS = "columns",
   ROWS = "rows",
-  SINGLE = "single",
+  ALTERNATE = "alternate",
+  SPLIT = "split",
+  IMAGE = "image",
+  COLLAGE = "collage",
+  MEDIA = "media",
   CREDITS = "credits",
 }
