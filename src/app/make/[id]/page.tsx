@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 
 import { getSignedURL, uploadImageURL } from "./actions";
 
-const MakeWrap = ({ params }: { params: Promise<{ id: string }> }) => {
+const MakeWrap = () => {
   // const id = (await params).id;
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | undefined>(undefined);

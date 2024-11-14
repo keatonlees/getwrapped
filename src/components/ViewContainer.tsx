@@ -27,7 +27,7 @@ const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
       case PageType.COLUMNS:
         return <ColumnsTemplate wrap={wrap} current={current} />;
       case PageType.CREDITS:
-        return <CreditsTemplate page={wrap.pages[current]} />;
+        return <CreditsTemplate />;
       default:
         return <DefaultTemplate />;
     }

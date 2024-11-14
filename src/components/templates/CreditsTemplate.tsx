@@ -1,7 +1,6 @@
-import { Page } from "@/lib/utils/interfaces";
 import React from "react";
 
-const CreditsTemplate = ({ page }: { page: Page }) => {
+const CreditsTemplate = () => {
   return (
     <div>credits</div>
     // <div
