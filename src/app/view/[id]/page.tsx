@@ -1,21 +1,13 @@
 import React from "react";
 
-import { baseURL } from "@/lib/utils/constants";
 import ViewContainer from "@/components/ViewContainer";
+import { getWrapById } from "./actions";
 
 const ViewWrap = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
+  const wrap = await getWrapById(id);
 
-  let wrap = null;
-  try {
-    const res = await fetch(`${baseURL}/api/wrap/${id}`, {
-      method: "GET",
-    });
-    wrap = await res.json();
-  } catch (e) {
-    console.log(e);
-  }
-
+  // TODO: Better error handling
   if (JSON.stringify(wrap) === "{}") {
     return <h1>Wrap not found</h1>;
   }

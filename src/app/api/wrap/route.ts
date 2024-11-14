@@ -1,17 +1,22 @@
+import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 import clientPromise from "@/lib/mongo";
-import { newWrap } from "@/lib/utils/constants";
 
 const dbName = "getwrapped";
 const collectionName = "wraps";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const params = request.nextUrl.searchParams;
+  const id = params.get("id") ?? "";
+
+  await new Promise((r) => setTimeout(r, 2000));
+
   try {
     const client = await clientPromise;
     const wrapsDB = client.db(dbName).collection(collectionName);
 
-    const result = await wrapsDB.find({}).limit(10).toArray();
+    const result = await wrapsDB.findOne({ _id: new ObjectId(id) });
     return NextResponse.json(result);
   } catch (e) {
     console.log(e);
@@ -19,14 +24,20 @@ export async function GET() {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function PUT(request: NextRequest) {
+  const params = request.nextUrl.searchParams;
+  const id = params.get("id") ?? "";
+
   const body = await request.json();
 
   try {
     const client = await clientPromise;
     const wrapsDB = client.db(dbName).collection(collectionName);
 
-    const result = await wrapsDB.insertOne({ ...newWrap, title: body.title });
+    const result = await wrapsDB.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { title: body.title } }
+    );
     return NextResponse.json(result);
   } catch (e) {
     console.log(e);
