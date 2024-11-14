@@ -44,7 +44,7 @@ const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
       id="view-container"
       className="w-full h-dvh flex flex-col items-center justify-center overflow-hidden view-bg-transition"
     >
-      {/* <div className="flex items-center justify-center bg-neutral text-black w-[60%] h-12 absolute top-12 rounded-lg"></div> */}
+      <div className="flex items-center justify-center bg-neutral text-black w-[60%] h-12 absolute top-12 rounded-lg"></div>
 
       {renderSwitch()}
 
