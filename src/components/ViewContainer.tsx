@@ -10,6 +10,8 @@ import ColumnsTemplate from "./templates/ColumnsTemplate";
 
 import { Wrap } from "@/lib/utils/interfaces";
 import { PageType } from "@/lib/utils/enums";
+import RowsTemplate from "./templates/RowsTemplate";
+import AlternatingTemplate from "./templates/AlternatingTemplate";
 
 const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
   const [current, setCurrent] = useState(0);
@@ -26,6 +28,10 @@ const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
         return <TitleTemplate wrap={wrap} current={current} />;
       case PageType.COLUMNS:
         return <ColumnsTemplate wrap={wrap} current={current} />;
+      case PageType.ROWS:
+        return <RowsTemplate wrap={wrap} current={current} />;
+      case PageType.ALTERNATING:
+        return <AlternatingTemplate wrap={wrap} current={current} />;
       case PageType.CREDITS:
         return <CreditsTemplate />;
       default:
@@ -38,9 +44,7 @@ const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
       id="view-container"
       className="w-full h-dvh flex flex-col items-center justify-center overflow-hidden view-bg-transition"
     >
-      {/* <div className="flex items-center justify-center bg-primary text-black w-96 h-12 absolute top-12">
-        Edit Bar
-      </div> */}
+      {/* <div className="flex items-center justify-center bg-neutral text-black w-[60%] h-12 absolute top-12 rounded-lg"></div> */}
 
       {renderSwitch()}
 
