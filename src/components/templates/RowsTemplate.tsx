@@ -23,7 +23,7 @@ const RowsTemplate = ({ wrap, current }: Template) => {
               delay={200 * i}
             >
               <div className="flex gap-4">
-                <div className="aspect-video h-[9dvh] 2xl:h-[12dvh] max-h-[12dvh] rounded-lg drop-shadow-lg bg-pink-200"></div>
+                <div className="aspect-video h-[9dvh] 2xl:h-[11dvh] max-h-[11dvh] rounded-lg drop-shadow-lg bg-pink-200"></div>
                 <div className="flex flex-col justify-center max-h-[100%]">
                   <div className="font-yeseva font-bold text-lg md:text-xl">
                     {row.title}
