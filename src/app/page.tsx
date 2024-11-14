@@ -1,23 +1,22 @@
+"use client";
+
 import React from "react";
+import { createNewWrap } from "./actions";
+import { redirect } from "next/navigation";
 
-import { baseURL } from "@/lib/utils/constants";
-import { Wrap } from "@/lib/utils/interfaces";
-
-export default async function Home() {
-  const res = await fetch(`${baseURL}/api/wraps`, {
-    method: "GET",
-  });
-  const wraps = await res.json();
+export default function Home() {
+  const handleCreate = async () => {
+    const wrap = await createNewWrap("New Wrap");
+    console.log(wrap.insertedId);
+    redirect(`/make/${wrap.insertedId}`);
+  };
 
   return (
     <main>
       <h1>Get Wrapped</h1>
-
-      {wraps.map((wrap: Wrap) => (
-        <div className="bg-slate-500" key={wrap._id}>
-          {wrap.title}
-        </div>
-      ))}
+      <button className="btn btn-primary" onClick={handleCreate}>
+        Create New Wrapped
+      </button>
     </main>
   );
 }
