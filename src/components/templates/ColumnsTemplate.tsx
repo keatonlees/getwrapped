@@ -23,7 +23,7 @@ const ColumnsTemplate = ({ wrap, current }: Template) => {
                 to="opacity-100 translate-y-0"
                 delay={200 * i}
               >
-                <div className="w-40 2xl:w-60 h-40 2xl:h-60 rounded-lg drop-shadow-lg bg-pink-200"></div>
+                <div className="aspect-square w-40 2xl:w-60 rounded-lg drop-shadow-lg bg-pink-200"></div>
                 <div className="font-yeseva font-bold text-lg 2xl:text-2xl my-4">
                   {col.title}
                 </div>

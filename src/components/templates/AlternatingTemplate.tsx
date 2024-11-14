@@ -12,12 +12,12 @@ const AlternatingTemplate = ({ wrap, current }: Template) => {
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center overflow-hidden">
       <AnimateIn from="opacity-0 -translate-y-4" to="opacity-100 translate-y-0">
-        <h1 className="font-yeseva text-4xl font-bold mb-8 text-shadow-psm shadow-neutral">
+        <h1 className="font-yeseva text-4xl font-bold mb-4 text-shadow-psm shadow-neutral">
           {page.title}
         </h1>
       </AnimateIn>
 
-      <div className="flex flex-col gap-4 mb-8 max-w-[90%] md:w-[40%]">
+      <div className="flex flex-col gap-4 mb-4 max-w-[90%] md:w-[40%]">
         {page.rows &&
           page.rows.map((row, i) => (
             <AnimateIn
@@ -29,7 +29,7 @@ const AlternatingTemplate = ({ wrap, current }: Template) => {
               <div
                 className={`flex ${isEven(i) ? "" : "flex-row-reverse"} gap-4`}
               >
-                <div className="w-32 md:w-48 h-24 md:h-36 rounded-lg drop-shadow-lg bg-pink-200"></div>
+                <div className="aspect-video h-[10dvh] xl:h-[12dvh] max-h-[12dvh] rounded-lg drop-shadow-lg bg-pink-200"></div>
 
                 <div
                   className={`flex flex-col justify-center max-h-[100%] ${
