@@ -18,7 +18,7 @@ const SplitTemplate = ({ wrap, current }: Template) => {
         </h1>
       </AnimateIn>
 
-      <div className="h-fit flex flex-col md:flex-row justify-between gap-8 md:gap-32 mb-4">
+      <div className="h-fit flex flex-col md:flex-row justify-between gap-4 md:gap-32 mb-4">
         {page.columns &&
           page.columns.map((col, i) => (
             <div key={i} className="flex flex-col items-center justify-center">
@@ -27,7 +27,7 @@ const SplitTemplate = ({ wrap, current }: Template) => {
                 to="opacity-100 translate-y-0"
                 delay={250 * (i + 2)}
               >
-                <div className="aspect-video w-[70dvw] sm:w-[60dvw] md:w-[32dvw] rounded-lg drop-shadow-lg bg-pink-200"></div>
+                <div className="aspect-video w-[65dvw] sm:w-[60dvw] md:w-[32dvw] rounded-lg drop-shadow-lg bg-pink-200"></div>
                 <div className="font-yeseva font-bold text-lg md:text-2xl my-1">
                   {col.title}
                 </div>
