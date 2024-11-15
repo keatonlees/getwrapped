@@ -4,10 +4,11 @@ export enum PageType {
   COLUMNS = "columns",
   ROWS = "rows",
   ALTERNATING = "alternating",
+  SINGLE = "single",
   SPLIT = "split",
-  QUARTERS = "quarters",
-  IMAGE = "image",
+  // QUARTERS = "quarters",
   COLLAGE = "collage",
+  BENTOBOX = "bentobox",
   MEDIA = "media",
   CREDITS = "credits",
 }
