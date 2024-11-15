@@ -12,6 +12,7 @@ export interface Page {
   color: string;
   title?: string;
   subtitle?: string;
+  content?: string;
   columns?: Cell[];
   rows?: Cell[];
 }

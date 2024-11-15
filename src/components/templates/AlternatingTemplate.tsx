@@ -1,17 +1,18 @@
 import AnimateIn from "@/lib/animations/AnimateIn";
 import { Template } from "@/lib/utils/interfaces";
+import { isEven } from "@/lib/utils/isEven";
 import React from "react";
 
 const AlternatingTemplate = ({ wrap, current }: Template) => {
   const page = wrap.pages[current];
 
-  const isEven = (i: number) => {
-    return i % 2 === 0 ? true : false;
-  };
-
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center overflow-hidden">
-      <AnimateIn from="opacity-0 -translate-y-4" to="opacity-100 translate-y-0">
+      <AnimateIn
+        from="opacity-0 -translate-y-4"
+        to="opacity-100 translate-y-0"
+        delay={250}
+      >
         <h1 className="font-yeseva text-4xl font-bold mb-4 text-shadow-psm shadow-neutral">
           {page.title}
         </h1>
@@ -24,7 +25,7 @@ const AlternatingTemplate = ({ wrap, current }: Template) => {
               key={i}
               from={`opacity-0 ${isEven(i) ? "-" : ""}translate-x-4`}
               to="opacity-100 translate-x-0"
-              delay={200 * i}
+              delay={250 * (i + 2)}
             >
               <div
                 className={`flex ${isEven(i) ? "" : "flex-row-reverse"} gap-4`}

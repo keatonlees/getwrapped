@@ -5,27 +5,36 @@ import Pagination from "./Pagination";
 
 import TitleTemplate from "./templates/TitleTemplate";
 import CreditsTemplate from "./templates/CreditsTemplate";
-import DefaultTemplate from "./templates/DefaultTemplate";
+import SingleTemplate from "./templates/SingleTemplate";
 import ColumnsTemplate from "./templates/ColumnsTemplate";
 
 import { Wrap } from "@/lib/utils/interfaces";
 import { PageType } from "@/lib/utils/enums";
 import RowsTemplate from "./templates/RowsTemplate";
 import AlternatingTemplate from "./templates/AlternatingTemplate";
+import SplitTemplate from "./templates/SplitTemplate";
 
 const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     const view = document.getElementById("view-container") as HTMLElement;
-    view.style.background = wrap.pages[current].bgColor;
-    view.style.color = wrap.pages[current].color;
+    if (current !== -1) {
+      view.style.background = wrap.pages[current].bgColor;
+      view.style.color = wrap.pages[current].color;
+    }
   }, [wrap.pages, current]);
 
   const renderSwitch = () => {
+    if (current === -1) return;
+
     switch (wrap.pages[current].type) {
       case PageType.TITLE:
         return <TitleTemplate wrap={wrap} current={current} />;
+      case PageType.SINGLE:
+        return <SingleTemplate wrap={wrap} current={current} />;
+      case PageType.SPLIT:
+        return <SplitTemplate wrap={wrap} current={current} />;
       case PageType.COLUMNS:
         return <ColumnsTemplate wrap={wrap} current={current} />;
       case PageType.ROWS:
@@ -35,7 +44,7 @@ const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
       case PageType.CREDITS:
         return <CreditsTemplate />;
       default:
-        return <DefaultTemplate />;
+        return <SingleTemplate wrap={wrap} current={current} />;
     }
   };
 

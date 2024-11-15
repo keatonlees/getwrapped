@@ -17,8 +17,34 @@ const Pagination = ({
 }) => {
   const length = wrap.pages.length;
 
+  const prev = async () => {
+    if (current - 1 >= 0) {
+      setCurrent(-1);
+      await new Promise((r) => setTimeout(r, 1));
+      setCurrent(current - 1);
+    } else {
+      setCurrent(0);
+    }
+  };
+
+  const next = async () => {
+    if (current + 1 <= length - 1) {
+      setCurrent(-1);
+      await new Promise((r) => setTimeout(r, 1));
+      setCurrent(current + 1);
+    } else {
+      setCurrent(length - 1);
+    }
+  };
+
+  const goTo = async (i: number) => {
+    setCurrent(-1);
+    await new Promise((r) => setTimeout(r, 1));
+    setCurrent(i);
+  };
+
   return (
-    <div className="absolute bottom-4">
+    <div className="absolute bottom-4 overflow-hidden">
       <AnimateIn
         from="opacity-0 translate-y-8"
         to="opacity-100 translate-y-0"
@@ -27,7 +53,7 @@ const Pagination = ({
       >
         <button
           className="btn btn-outline btn-square text-3xl m-2"
-          onClick={() => setCurrent(current - 1 < 0 ? 0 : current - 1)}
+          onClick={prev}
         >
           <TbArrowBadgeLeftFilled />
         </button>
@@ -40,7 +66,7 @@ const Pagination = ({
                 className={`btn btn-2xs btn-circle ${
                   i === current ? "btn-neutral" : "btn-outline"
                 }`}
-                onClick={() => setCurrent(i)}
+                onClick={() => goTo(i)}
               />
             );
           })}
@@ -48,9 +74,7 @@ const Pagination = ({
 
         <button
           className="btn btn-outline btn-square text-3xl m-2"
-          onClick={() =>
-            setCurrent(current + 1 > length - 1 ? length - 1 : current + 1)
-          }
+          onClick={next}
         >
           <TbArrowBadgeRightFilled />
         </button>
