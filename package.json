@@ -22,6 +22,7 @@
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18",
     "daisyui": "^4.12.14",
     "eslint": "^8",

@@ -1,5 +1,6 @@
 import { Page } from "@/lib/utils/interfaces";
 import React from "react";
+import { FaUndoAlt, FaSave, FaPlus } from "react-icons/fa";
 
 interface EditBar {
   page: Page;
@@ -8,33 +9,60 @@ interface EditBar {
 }
 
 const EditBar = ({ page, setBgColor, setColor }: EditBar) => {
+  const resetBgColor = () => {
+    (document.getElementById("bgColorInput") as HTMLInputElement).value =
+      page.bgColor;
+    setBgColor(page.bgColor);
+  };
+
+  const resetColor = () => {
+    (document.getElementById("colorInput") as HTMLInputElement).value =
+      page.color;
+    setColor(page.color);
+  };
+
   return (
-    <div className="flex items-center justify-center bg-neutral text-black absolute p-2 top-4 rounded-xl">
-      <button className="btn btn-primary btn-md">Save Page</button>
+    <div className="flex h-12 items-center justify-center absolute top-4 gap-2">
+      <button className="btn btn-primary btn-md">
+        <FaSave className="text-lg" />
+        Save Page
+      </button>
 
-      <div className="divider divider-horizontal"></div>
+      <div className="flex h-12 items-center justify-center p-4 bg-neutral rounded-xl">
+        <label className="flex items-center gap-2 text-white">
+          Page:
+          <input
+            id="bgColorInput"
+            type="color"
+            className="rounded w-6 h-6 hover:cursor-pointer"
+            defaultValue={page.bgColor}
+            onChange={(e) => setBgColor(e.target.value)}
+          />
+          <button onClick={resetBgColor}>
+            <FaUndoAlt />
+          </button>
+        </label>
 
-      <label className="flex items-center gap-1 text-white">
-        Background:
-        <input
-          type="color"
-          className="bg-transparent"
-          defaultValue={page.bgColor}
-          onChange={(e) => setBgColor(e.target.value)}
-        />
-      </label>
+        <div className="divider divider-horizontal mx-1"></div>
 
-      <div className="divider divider-horizontal"></div>
-
-      <label className="flex items-center gap-1 text-white">
-        Accent:
-        <input
-          type="color"
-          className="bg-transparent"
-          defaultValue={page.color}
-          onChange={(e) => setColor(e.target.value)}
-        />
-      </label>
+        <label className="flex items-center gap-2 text-white">
+          Accent:
+          <input
+            id="colorInput"
+            type="color"
+            className="rounded w-6 h-6"
+            defaultValue={page.color}
+            onChange={(e) => setColor(e.target.value)}
+          />
+          <button onClick={resetColor}>
+            <FaUndoAlt />
+          </button>
+        </label>
+      </div>
+      <button className="btn btn-success btn-md">
+        <FaPlus className="text-lg" />
+        Add Page
+      </button>
     </div>
   );
 };
