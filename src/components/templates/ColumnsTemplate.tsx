@@ -4,6 +4,7 @@ import AnimateIn from "@/lib/animations/AnimateIn";
 import { Template } from "@/lib/utils/interfaces";
 import useWindowDimensions from "@/lib/utils/window";
 import React from "react";
+import ImageComponent from "../ImageComponent";
 
 const ColumnsTemplate = ({ wrap, current }: Template) => {
   const page = wrap.pages[current];
@@ -23,7 +24,9 @@ const ColumnsTemplate = ({ wrap, current }: Template) => {
                 to="opacity-100 translate-y-0"
                 delay={250 * (i + 2)}
               >
-                <div className="aspect-square w-40 2xl:w-60 rounded-lg drop-shadow-lg bg-pink-200"></div>
+                <div className="aspect-square w-40 2xl:w-60">
+                  <ImageComponent src={page.imageURL} />
+                </div>
                 <div className="font-yeseva font-bold text-lg 2xl:text-2xl my-4">
                   {col.title}
                 </div>

@@ -6,19 +6,31 @@ import {
   TbArrowBadgeRightFilled,
 } from "react-icons/tb";
 
+interface Pagination {
+  current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
+  wrap: Wrap;
+  setBgColor: React.Dispatch<React.SetStateAction<string>>;
+  setColor: React.Dispatch<React.SetStateAction<string>>;
+}
+
 const Pagination = ({
   current,
   setCurrent,
   wrap,
-}: {
-  current: number;
-  setCurrent: React.Dispatch<React.SetStateAction<number>>;
-  wrap: Wrap;
-}) => {
+  setBgColor,
+  setColor,
+}: Pagination) => {
   const length = wrap.pages.length;
+
+  const resetColors = () => {
+    setBgColor("");
+    setColor("");
+  };
 
   const prev = async () => {
     if (current - 1 >= 0) {
+      resetColors();
       setCurrent(-1);
       await new Promise((r) => setTimeout(r, 1));
       setCurrent(current - 1);
@@ -29,6 +41,7 @@ const Pagination = ({
 
   const next = async () => {
     if (current + 1 <= length - 1) {
+      resetColors();
       setCurrent(-1);
       await new Promise((r) => setTimeout(r, 1));
       setCurrent(current + 1);
@@ -38,6 +51,7 @@ const Pagination = ({
   };
 
   const goTo = async (i: number) => {
+    resetColors();
     setCurrent(-1);
     await new Promise((r) => setTimeout(r, 1));
     setCurrent(i);
@@ -48,7 +62,7 @@ const Pagination = ({
       <AnimateIn
         from="opacity-0 translate-y-8"
         to="opacity-100 translate-y-0"
-        delay={500}
+        delay={1000}
         className="flex items-center"
       >
         <button

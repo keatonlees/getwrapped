@@ -1,6 +1,7 @@
 import AnimateIn from "@/lib/animations/AnimateIn";
 import { Template } from "@/lib/utils/interfaces";
 import React from "react";
+import ImageComponent from "../ImageComponent";
 
 const RowsTemplate = ({ wrap, current }: Template) => {
   const page = wrap.pages[current];
@@ -27,7 +28,9 @@ const RowsTemplate = ({ wrap, current }: Template) => {
               delay={250 * (i + 2)}
             >
               <div className="flex gap-4">
-                <div className="aspect-video h-[9dvh] 2xl:h-[11dvh] max-h-[11dvh] rounded-lg drop-shadow-lg bg-pink-200"></div>
+                <div className="aspect-video h-[9dvh] 2xl:h-[11dvh] max-h-[11dvh]">
+                  <ImageComponent src={row.imageURL} />
+                </div>
                 <div className="flex flex-col justify-center max-h-[100%]">
                   <div className="font-yeseva font-bold text-lg md:text-xl">
                     {row.title}

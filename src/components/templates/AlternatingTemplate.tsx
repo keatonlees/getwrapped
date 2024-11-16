@@ -2,6 +2,7 @@ import AnimateIn from "@/lib/animations/AnimateIn";
 import { Template } from "@/lib/utils/interfaces";
 import { isEven } from "@/lib/utils/isEven";
 import React from "react";
+import ImageComponent from "../ImageComponent";
 
 const AlternatingTemplate = ({ wrap, current }: Template) => {
   const page = wrap.pages[current];
@@ -30,7 +31,9 @@ const AlternatingTemplate = ({ wrap, current }: Template) => {
               <div
                 className={`flex ${isEven(i) ? "" : "flex-row-reverse"} gap-4`}
               >
-                <div className="aspect-video h-[10dvh] xl:h-[12dvh] max-h-[12dvh] rounded-lg drop-shadow-lg bg-pink-200"></div>
+                <div className="aspect-video h-[10dvh] xl:h-[12dvh] max-h-[12dvh]">
+                  <ImageComponent src={row.imageURL} />
+                </div>
 
                 <div
                   className={`flex flex-col justify-center max-h-[100%] ${

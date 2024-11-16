@@ -2,6 +2,7 @@ import AnimateIn from "@/lib/animations/AnimateIn";
 import { Template } from "@/lib/utils/interfaces";
 import { isEven } from "@/lib/utils/isEven";
 import React from "react";
+import ImageComponent from "../ImageComponent";
 
 const SplitTemplate = ({ wrap, current }: Template) => {
   const page = wrap.pages[current];
@@ -27,7 +28,9 @@ const SplitTemplate = ({ wrap, current }: Template) => {
                 to="opacity-100 translate-y-0"
                 delay={250 * (i + 2)}
               >
-                <div className="aspect-video w-[65dvw] sm:w-[60dvw] md:w-[32dvw] rounded-lg drop-shadow-lg bg-pink-200"></div>
+                <div className="aspect-video w-[65dvw] sm:w-[60dvw] md:w-[32dvw]">
+                  <ImageComponent src={page.imageURL} />
+                </div>
                 <div className="font-yeseva font-bold text-lg md:text-2xl my-1">
                   {col.title}
                 </div>

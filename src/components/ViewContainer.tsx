@@ -13,20 +13,25 @@ import { PageType } from "@/lib/utils/enums";
 import RowsTemplate from "./templates/RowsTemplate";
 import AlternatingTemplate from "./templates/AlternatingTemplate";
 import SplitTemplate from "./templates/SplitTemplate";
+import EditBar from "./EditBar";
 
 const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
   const [current, setCurrent] = useState(0);
 
+  const [bgColor, setBgColor] = useState("");
+  const [color, setColor] = useState("");
+
   useEffect(() => {
-    const view = document.getElementById("view-container") as HTMLElement;
-    if (current !== -1) {
-      view.style.background = wrap.pages[current].bgColor;
-      view.style.color = wrap.pages[current].color;
+    const view = document.getElementById("view") as HTMLElement;
+    if (wrap.pages[current]) {
+      document.body.style.backgroundColor =
+        bgColor || wrap.pages[current].bgColor;
+      view.style.color = color || wrap.pages[current].color;
     }
-  }, [wrap.pages, current]);
+  }, [wrap.pages, current, bgColor, color]);
 
   const renderSwitch = () => {
-    if (current === -1) return;
+    if (!wrap.pages[current]) return;
 
     switch (wrap.pages[current].type) {
       case PageType.TITLE:
@@ -50,14 +55,26 @@ const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
 
   return (
     <div
-      id="view-container"
-      className="w-full h-dvh flex flex-col items-center justify-center overflow-hidden view-bg-transition"
+      id="view"
+      className="w-full h-dvh flex flex-col items-center justify-center overflow-hidden"
     >
-      <div className="flex items-center justify-center bg-neutral text-black w-[60%] h-12 absolute top-4 rounded-lg"></div>
+      {wrap.pages[current] && (
+        <EditBar
+          page={wrap.pages[current]}
+          setBgColor={setBgColor}
+          setColor={setColor}
+        />
+      )}
 
       {renderSwitch()}
 
-      <Pagination current={current} setCurrent={setCurrent} wrap={wrap} />
+      <Pagination
+        current={current}
+        setCurrent={setCurrent}
+        wrap={wrap}
+        setBgColor={setBgColor}
+        setColor={setColor}
+      />
     </div>
   );
 };
