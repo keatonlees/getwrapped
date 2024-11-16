@@ -4,7 +4,7 @@ import { isEven } from "@/lib/utils/isEven";
 import React from "react";
 import ImageComponent from "../ImageComponent";
 
-const SplitTemplate = ({ wrap, current }: Template) => {
+const SplitTemplate = ({ wrap, current, editing }: Template) => {
   const page = wrap.pages[current];
 
   return (
@@ -29,7 +29,7 @@ const SplitTemplate = ({ wrap, current }: Template) => {
                 delay={250 * (i + 2)}
               >
                 <div className="aspect-video w-[65dvw] sm:w-[60dvw] md:w-[32dvw]">
-                  <ImageComponent src={page.imageURL} />
+                  <ImageComponent src={page.imageURL} editing={editing} />
                 </div>
                 <div className="font-yeseva font-bold text-lg md:text-2xl my-1">
                   {col.title}

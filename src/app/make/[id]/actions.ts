@@ -48,10 +48,23 @@ export async function getSignedURL(
 }
 
 export async function uploadImageURL(id: string) {
+  // try {
+  //   const res = await fetch(`${baseURL}/api/wrap?id=${id}`, {
+  //     method: "PUT",
+  //     body: JSON.stringify({ title: "This is a new title" }),
+  //   });
+  //   return await res.json();
+  // } catch (e) {
+  //   console.log(e);
+  //   return e;
+  // }
+}
+
+export async function updateWrapPage(id: string, data: object) {
   try {
     const res = await fetch(`${baseURL}/api/wrap?id=${id}`, {
       method: "PUT",
-      body: JSON.stringify({ title: "This is a new title" }),
+      body: JSON.stringify({ query: data }),
     });
     return await res.json();
   } catch (e) {

@@ -1,23 +1,28 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { Wrap } from "@/lib/utils/interfaces";
+import { PageType } from "@/lib/utils/enums";
+
+import EditBar from "../app/make/[id]/EditBar";
 import Pagination from "./Pagination";
 
 import TitleTemplate from "./templates/TitleTemplate";
 import CreditsTemplate from "./templates/CreditsTemplate";
 import SingleTemplate from "./templates/SingleTemplate";
-import ColumnsTemplate from "./templates/ColumnsTemplate";
-
-import { Wrap } from "@/lib/utils/interfaces";
-import { PageType } from "@/lib/utils/enums";
+import SplitTemplate from "./templates/SplitTemplate";
 import RowsTemplate from "./templates/RowsTemplate";
 import AlternatingTemplate from "./templates/AlternatingTemplate";
-import SplitTemplate from "./templates/SplitTemplate";
-import EditBar from "./EditBar";
+import ColumnsTemplate from "./templates/ColumnsTemplate";
 
-const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
+interface ViewContainer {
+  id?: string;
+  wrap: Wrap;
+  editing: boolean;
+}
+
+const ViewContainer = ({ id, wrap, editing }: ViewContainer) => {
   const [current, setCurrent] = useState(0);
-
   const [bgColor, setBgColor] = useState("");
   const [color, setColor] = useState("");
 
@@ -35,21 +40,45 @@ const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
 
     switch (wrap.pages[current].type) {
       case PageType.TITLE:
-        return <TitleTemplate wrap={wrap} current={current} />;
+        return (
+          <TitleTemplate wrap={wrap} current={current} editing={editing} />
+        );
       case PageType.SINGLE:
-        return <SingleTemplate wrap={wrap} current={current} />;
+        return (
+          <SingleTemplate
+            wrap={wrap}
+            current={current}
+            editing={editing}
+            bgColor={bgColor}
+            color={color}
+            setBgColor={setBgColor}
+            setColor={setColor}
+          />
+        );
       case PageType.SPLIT:
-        return <SplitTemplate wrap={wrap} current={current} />;
+        return (
+          <SplitTemplate wrap={wrap} current={current} editing={editing} />
+        );
       case PageType.COLUMNS:
-        return <ColumnsTemplate wrap={wrap} current={current} />;
+        return (
+          <ColumnsTemplate wrap={wrap} current={current} editing={editing} />
+        );
       case PageType.ROWS:
-        return <RowsTemplate wrap={wrap} current={current} />;
+        return <RowsTemplate wrap={wrap} current={current} editing={editing} />;
       case PageType.ALTERNATING:
-        return <AlternatingTemplate wrap={wrap} current={current} />;
+        return (
+          <AlternatingTemplate
+            wrap={wrap}
+            current={current}
+            editing={editing}
+          />
+        );
       case PageType.CREDITS:
         return <CreditsTemplate />;
       default:
-        return <SingleTemplate wrap={wrap} current={current} />;
+        return (
+          <SingleTemplate wrap={wrap} current={current} editing={editing} />
+        );
     }
   };
 
@@ -58,13 +87,14 @@ const ViewContainer = ({ wrap }: { wrap: Wrap }) => {
       id="view"
       className="w-full h-dvh flex flex-col items-center justify-center overflow-hidden"
     >
-      {wrap.pages[current] && (
+      {/* {editing && wrap.pages[current] && (
         <EditBar
+          id={id}
           page={wrap.pages[current]}
           setBgColor={setBgColor}
           setColor={setColor}
         />
-      )}
+      )} */}
 
       {renderSwitch()}
 

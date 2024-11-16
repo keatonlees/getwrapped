@@ -4,7 +4,7 @@ import { isEven } from "@/lib/utils/isEven";
 import React from "react";
 import ImageComponent from "../ImageComponent";
 
-const AlternatingTemplate = ({ wrap, current }: Template) => {
+const AlternatingTemplate = ({ wrap, current, editing }: Template) => {
   const page = wrap.pages[current];
 
   return (
@@ -32,7 +32,7 @@ const AlternatingTemplate = ({ wrap, current }: Template) => {
                 className={`flex ${isEven(i) ? "" : "flex-row-reverse"} gap-4`}
               >
                 <div className="aspect-video h-[10dvh] xl:h-[12dvh] max-h-[12dvh]">
-                  <ImageComponent src={row.imageURL} />
+                  <ImageComponent src={row.imageURL} editing={editing} />
                 </div>
 
                 <div

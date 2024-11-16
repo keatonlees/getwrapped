@@ -26,4 +26,9 @@ interface Cell {
 export interface Template {
   wrap: Wrap;
   current: number;
+  editing: boolean;
+  bgColor: string;
+  color: string;
+  setBgColor: React.Dispatch<React.SetStateAction<string>>;
+  setColor: React.Dispatch<React.SetStateAction<string>>;
 }

@@ -1,14 +1,18 @@
-import { Page } from "@/lib/utils/interfaces";
 import React from "react";
-import { FaUndoAlt, FaSave, FaPlus } from "react-icons/fa";
+import { FaSave, FaPlus } from "react-icons/fa";
+import { TbTrashXFilled, TbExternalLink } from "react-icons/tb";
+import { Page } from "@/lib/utils/interfaces";
+import { baseURL } from "@/lib/utils/constants";
 
 interface EditBar {
+  id: string | undefined;
   page: Page;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
   setColor: React.Dispatch<React.SetStateAction<string>>;
+  savePage: () => void;
 }
 
-const EditBar = ({ page, setBgColor, setColor }: EditBar) => {
+const EditBar = ({ id, page, setBgColor, setColor, savePage }: EditBar) => {
   const resetBgColor = () => {
     (document.getElementById("bgColorInput") as HTMLInputElement).value =
       page.bgColor;
@@ -21,14 +25,18 @@ const EditBar = ({ page, setBgColor, setColor }: EditBar) => {
     setColor(page.color);
   };
 
+  const openPreview = () => {
+    if (id) window.open(`${baseURL}/view/${id}`, "_blank");
+  };
+
   return (
     <div className="flex h-12 items-center justify-center absolute top-4 gap-2">
-      <button className="btn btn-primary btn-md">
+      <button onClick={savePage} className="btn btn-primary btn-md">
         <FaSave className="text-lg" />
         Save Page
       </button>
 
-      <div className="flex h-12 items-center justify-center p-4 bg-neutral rounded-xl">
+      <div className="flex h-12 items-center justify-center pl-4 pr-2 bg-neutral rounded-xl">
         <label className="flex items-center gap-2 text-white">
           Page:
           <input
@@ -39,7 +47,7 @@ const EditBar = ({ page, setBgColor, setColor }: EditBar) => {
             onChange={(e) => setBgColor(e.target.value)}
           />
           <button onClick={resetBgColor}>
-            <FaUndoAlt />
+            <TbTrashXFilled className="text-xl" />
           </button>
         </label>
 
@@ -55,7 +63,19 @@ const EditBar = ({ page, setBgColor, setColor }: EditBar) => {
             onChange={(e) => setColor(e.target.value)}
           />
           <button onClick={resetColor}>
-            <FaUndoAlt />
+            <TbTrashXFilled className="text-xl" />
+          </button>
+        </label>
+
+        <div className="divider divider-horizontal ml-1 mr-0"></div>
+
+        <label className="flex items-center gap-2 text-white">
+          <button
+            onClick={openPreview}
+            className="btn btn-ghost btn-sm rounded-md"
+          >
+            Preview
+            <TbExternalLink className="text-xl" />
           </button>
         </label>
       </div>

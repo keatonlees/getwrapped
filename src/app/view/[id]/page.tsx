@@ -8,11 +8,9 @@ const ViewWrap = async ({ params }: { params: Promise<{ id: string }> }) => {
   const wrap = await getWrapById(id);
 
   // TODO: Better error handling
-  if (JSON.stringify(wrap) === "{}") {
-    return <h1>Wrap not found</h1>;
-  }
+  if (JSON.stringify(wrap) === "{}") return <h1>Wrap not found</h1>;
 
-  return <ViewContainer wrap={wrap} />;
+  return <ViewContainer wrap={wrap} editing={false} />;
 };
 
 export default ViewWrap;

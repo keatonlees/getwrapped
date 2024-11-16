@@ -2,7 +2,7 @@ import React from "react";
 import { Template } from "@/lib/utils/interfaces";
 import AnimateIn from "@/lib/animations/AnimateIn";
 
-const TitleTemplate = ({ wrap, current }: Template) => {
+const TitleTemplate = ({ wrap, current, editing }: Template) => {
   const page = wrap.pages[current];
 
   return (

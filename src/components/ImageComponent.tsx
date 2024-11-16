@@ -2,7 +2,12 @@ import React from "react";
 import Image from "next/image";
 import placeholder from "../../public/placeholder.svg";
 
-const ImageComponent = ({ src }: { src: string | undefined }) => {
+interface ImageComponent {
+  src: string | undefined;
+  editing: boolean;
+}
+
+const ImageComponent = ({ src, editing }: ImageComponent) => {
   const [file, setFile] = React.useState<File | undefined>(undefined);
   const [fileURL, setFileURL] = React.useState<string | undefined>(undefined);
 
@@ -48,16 +53,18 @@ const ImageComponent = ({ src }: { src: string | undefined }) => {
         </div>
 
         {/* Upload */}
-        <label className="btn btn-primary btn-sm absolute bottom-2 left-2">
-          Upload
-          <input
-            type="file"
-            className="hidden"
-            name="media"
-            accept="image/jpeg, image/png, image/webp"
-            onChange={handleUpload}
-          />
-        </label>
+        {editing && (
+          <label className="btn btn-primary btn-sm absolute bottom-2 left-2">
+            Upload
+            <input
+              type="file"
+              className="hidden"
+              name="media"
+              accept="image/jpeg, image/png, image/webp"
+              onChange={handleUpload}
+            />
+          </label>
+        )}
 
         {/* Discard */}
         {fileURL && file && (
