@@ -13,12 +13,14 @@ export interface Page {
   title?: string;
   subtitle?: string;
   content?: string;
+  imageURL?: string;
   columns?: Cell[];
   rows?: Cell[];
 }
 interface Cell {
   title: string;
   content: string;
+  imageURL?: string;
 }
 
 export interface Template {

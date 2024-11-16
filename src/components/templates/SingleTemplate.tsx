@@ -1,6 +1,8 @@
 import AnimateIn from "@/lib/animations/AnimateIn";
 import { Template } from "@/lib/utils/interfaces";
 import React from "react";
+import ImageComponent from "../ImageComponent";
+// import EditBar from "../EditBar";
 
 const SingleTemplate = ({ wrap, current }: Template) => {
   const page = wrap.pages[current];
@@ -13,7 +15,9 @@ const SingleTemplate = ({ wrap, current }: Template) => {
         delay={250}
         as="div"
       >
-        <div className="aspect-video w-[80dvw] 2xl:w-[40dvw] rounded-lg drop-shadow-lg bg-pink-200"></div>
+        <div className="aspect-video w-[80dvw] 2xl:w-[40dvw]">
+          <ImageComponent src={page.imageURL} />
+        </div>
       </AnimateIn>
 
       <div className="flex flex-col items-center max-w-[100%]">

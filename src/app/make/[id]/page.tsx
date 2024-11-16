@@ -60,6 +60,8 @@ const MakeWrap = () => {
             "Content-Type": file.type,
           },
         });
+
+        console.log(url.split("?")[0]);
       }
     } catch (e) {
       setStatusMessage("failed");
