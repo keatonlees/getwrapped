@@ -1,63 +1,49 @@
 import React from "react";
-import { Template } from "@/lib/utils/interfaces";
+
+import { updateWrapPage } from "@/app/make/[id]/actions";
+import EditBar from "@/app/make/[id]/EditBar";
+import { getWrapById } from "@/app/view/[id]/actions";
+
 import AnimateIn from "@/lib/animations/AnimateIn";
+import { formatColorData } from "@/lib/mongo/formatData";
+import { Template } from "@/lib/utils/interfaces";
 
 import ImageComponent from "../ImageComponent";
-import EditBar from "@/app/make/[id]/EditBar";
-import { updateWrapPage } from "@/app/make/[id]/actions";
 
-const SingleTemplate = ({
-  wrap,
-  current,
-  editing,
-  color,
-  bgColor,
-  setBgColor,
-  setColor,
-}: Template) => {
+const SingleTemplate = (props: Template) => {
+  const {
+    editing,
+    wrap,
+    current,
+    bgColor,
+    color,
+    setWrap,
+    setBgColor,
+    setColor,
+  } = props;
+
+  const id = wrap._id.toString();
   const page = wrap.pages[current];
 
-  const savePage = async () => {
-    const currentBgColor = wrap.pages[current].bgColor;
-    const currentColor = wrap.pages[current].color;
-    // console.log(currentBgColor, currentColor);
-    // console.log(bgColor, color);
+  const saveSinglePage = async () => {
+    const data = formatColorData({ page, current, bgColor, color });
 
-    let data = {};
-
-    if (currentBgColor !== bgColor && bgColor !== "") {
-      console.log(bgColor);
-      data = {
-        ...data,
-        [`pages.${current}.bgColor`]: bgColor,
-      };
-    }
-    if (currentColor !== color && color !== "") {
-      console.log(color);
-      data = {
-        ...data,
-        [`pages.${current}.color`]: color,
-      };
-    }
-
+    // send data to action and refetch
     if (JSON.stringify(data) !== "{}") {
-      console.log(await updateWrapPage("6733d8067e6ceb6971cd2aca", data));
-    } else {
-      console.log("no changes");
+      await updateWrapPage(id, data);
+      setWrap(await getWrapById(id));
     }
-
-    // TODO: refetch page ?
   };
 
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center text-center overflow-hidden">
-      {editing && wrap.pages[current] && (
+      {editing && page && (
         <EditBar
-          id={undefined}
-          page={wrap.pages[current]}
+          id={id}
+          page={page}
           setBgColor={setBgColor}
           setColor={setColor}
-          savePage={savePage}
+          savePage={saveSinglePage}
         />
       )}
 

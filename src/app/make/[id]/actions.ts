@@ -1,10 +1,12 @@
 "use server";
 
-import { baseURL } from "@/lib/utils/constants";
+import crypto from "crypto";
+
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-import crypto from "crypto";
+import { baseURL } from "@/lib/utils/constants";
+
 const generateFileName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
 
@@ -47,18 +49,18 @@ export async function getSignedURL(
   return { success: { url: signedURL } };
 }
 
-export async function uploadImageURL(id: string) {
-  // try {
-  //   const res = await fetch(`${baseURL}/api/wrap?id=${id}`, {
-  //     method: "PUT",
-  //     body: JSON.stringify({ title: "This is a new title" }),
-  //   });
-  //   return await res.json();
-  // } catch (e) {
-  //   console.log(e);
-  //   return e;
-  // }
-}
+// export async function uploadImageURL(id: string) {
+// try {
+//   const res = await fetch(`${baseURL}/api/wrap?id=${id}`, {
+//     method: "PUT",
+//     body: JSON.stringify({ title: "This is a new title" }),
+//   });
+//   return await res.json();
+// } catch (e) {
+//   console.log(e);
+//   return e;
+// }
+// }
 
 export async function updateWrapPage(id: string, data: object) {
   try {

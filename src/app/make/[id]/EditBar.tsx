@@ -1,18 +1,21 @@
 import React from "react";
 import { FaSave, FaPlus } from "react-icons/fa";
 import { TbTrashXFilled, TbExternalLink } from "react-icons/tb";
-import { Page } from "@/lib/utils/interfaces";
+
 import { baseURL } from "@/lib/utils/constants";
+import { Page } from "@/lib/utils/interfaces";
 
 interface EditBar {
-  id: string | undefined;
+  id: string;
   page: Page;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
   setColor: React.Dispatch<React.SetStateAction<string>>;
   savePage: () => void;
 }
 
-const EditBar = ({ id, page, setBgColor, setColor, savePage }: EditBar) => {
+const EditBar = (props: EditBar) => {
+  const { id, page, setBgColor, setColor, savePage } = props;
+
   const resetBgColor = () => {
     (document.getElementById("bgColorInput") as HTMLInputElement).value =
       page.bgColor;

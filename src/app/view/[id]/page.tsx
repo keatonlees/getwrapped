@@ -1,6 +1,7 @@
 import React from "react";
 
 import ViewContainer from "@/components/ViewContainer";
+
 import { getWrapById } from "./actions";
 
 const ViewWrap = async ({ params }: { params: Promise<{ id: string }> }) => {

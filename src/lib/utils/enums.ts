@@ -1,11 +1,10 @@
 export enum PageType {
-  DEFAULT = "default",
   TITLE = "title",
+  SINGLE = "single",
+  SPLIT = "split",
   COLUMNS = "columns",
   ROWS = "rows",
   ALTERNATING = "alternating",
-  SINGLE = "single",
-  SPLIT = "split",
   // QUARTERS = "quarters",
   COLLAGE = "collage",
   BENTOBOX = "bentobox",
