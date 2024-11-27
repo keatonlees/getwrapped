@@ -44,11 +44,6 @@ export async function getSignedUploadUrl(
   if (!acceptedTypes.includes(type)) return { failure: "Invalid file type" };
   if (size > maxFileSize) return { failure: "File too large" };
 
-  console.log(process.env.AWS_BUCKET_NAME);
-  console.log(process.env.AWS_BUCKET_REGION);
-  console.log(process.env.AWS_BUCKET_ACCESS_KEY);
-  console.log(process.env.AWS_BUCKET_SECRET_KEY);
-
   const putObjectCommand = new PutObjectCommand({
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: generateFileName(),
@@ -90,7 +85,7 @@ export async function getUploadedImageURL(file: File) {
       );
 
       if (signedURLResult.failure !== undefined) {
-        return signedURLResult.failure;
+        return "error";
       }
       const url = signedURLResult.success.url;
 
@@ -107,7 +102,7 @@ export async function getUploadedImageURL(file: File) {
     }
   } catch (e) {
     console.log(e);
-    return `Error: ${e}`;
+    return "error";
   }
 }
 

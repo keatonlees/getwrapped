@@ -51,12 +51,10 @@ const SingleTemplate = (props: Template) => {
     let imageURL = undefined;
     if (file) imageURL = await getUploadedImageURL(file);
 
-    console.log(imageURL);
-
-    // if (imageURL === "error") {
-    //   setToast("Error uploading image!");
-    //   return;
-    // }
+    if (imageURL === "error") {
+      setToast("Error uploading image!");
+      return;
+    }
 
     const colorData = formatColorData({ page, current, bgColor, color });
     const textData = formatTextData({ page, current, title, content });
