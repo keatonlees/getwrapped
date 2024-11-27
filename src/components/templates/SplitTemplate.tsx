@@ -69,7 +69,6 @@ const SplitTemplate = (props: Template) => {
     if (file1) {
       fileURLs.push(await getUploadedImageURL(file1));
     } else fileURLs.push("");
-
     if (file2) {
       fileURLs.push(await getUploadedImageURL(file2));
     } else fileURLs.push("");
@@ -136,13 +135,13 @@ const SplitTemplate = (props: Template) => {
             onChange={handleTitle}
           />
         ) : (
-          <h1 className="font-yeseva font-bold text-4xl w-full text-shadow-psm shadow-neutral">
+          <h1 className="font-yeseva font-bold text-4xl w-full text-shadow-psm shadow-neutral mb-4">
             {page.title}
           </h1>
         )}
       </AnimateIn>
 
-      <div className="h-fit flex flex-col md:flex-row justify-between gap-4 md:gap-32 mb-4">
+      <div className="h-fit flex flex-col md:flex-row justify-between gap-4 md:gap-32 mb-4 mt-2">
         {page.items &&
           page.items.map((item, i) => (
             <div key={i}>
@@ -171,7 +170,7 @@ const SplitTemplate = (props: Template) => {
                     onChange={(e) => handleItemTitles(e, i)}
                   />
                 ) : (
-                  <h1 className="font-yeseva font-bold text-lg md:text-2xl mt-4 mb-2">
+                  <h1 className="font-yeseva font-bold text-lg md:text-2xl mt-2">
                     {item.title}
                   </h1>
                 )}

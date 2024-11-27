@@ -61,7 +61,7 @@ const ImageComponent = (props: ImageComponent) => {
         {editing && (
           <label className="btn btn-primary absolute bottom-2 left-2">
             <TbUpload className="text-xl" />
-            Upload
+            {/* Upload */}
             <input
               type="file"
               className="hidden"
@@ -79,7 +79,7 @@ const ImageComponent = (props: ImageComponent) => {
             onClick={handleDiscard}
           >
             <TbTrashXFilled className="text-xl" />
-            Discard
+            {/* Discard */}
           </button>
         )}
       </form>
