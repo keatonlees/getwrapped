@@ -28,8 +28,8 @@ export const computeSHA256 = async (file: File) => {
 const s3Client = new S3Client({
   region: process.env.AWS_BUCKET_REGION!,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY!,
-    secretAccessKey: process.env.AWS_SECRET_KEY!,
+    accessKeyId: process.env.AWS_BUCKET_ACCESS_KEY!,
+    secretAccessKey: process.env.AWS_BUCKET_SECRET_KEY!,
   },
 });
 
@@ -45,7 +45,7 @@ export async function getSignedUploadUrl(
   if (size > maxFileSize) return { failure: "File too large" };
 
   const putObjectCommand = new PutObjectCommand({
-    Bucket: process.env.AWS_BUCKET_NAME!,
+    Bucket: process.env.AWS_BUCKET_NAME,
     Key: generateFileName(),
     ContentType: type,
     ContentLength: size,
