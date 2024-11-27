@@ -17,6 +17,7 @@ import {
 import { Template } from "@/lib/utils/interfaces";
 
 import ImageComponent from "../ImageComponent";
+import Toast from "../Toast";
 
 const SingleTemplate = (props: Template) => {
   const {
@@ -33,6 +34,7 @@ const SingleTemplate = (props: Template) => {
   const id = wrap._id.toString();
   const page = wrap.pages[current];
 
+  const [toast, setToast] = useState("");
   const [title, setTitle] = useState(page.title || "");
   const [content, setContent] = useState(page.content || "");
   const [file, setFile] = React.useState<File | undefined>(undefined);
@@ -48,6 +50,11 @@ const SingleTemplate = (props: Template) => {
   const saveSinglePage = async () => {
     let imageURL = undefined;
     if (file) imageURL = await getUploadedImageURL(file);
+
+    if (imageURL === "error") {
+      setToast("Error uploading image!");
+      return;
+    }
 
     const colorData = formatColorData({ page, current, bgColor, color });
     const textData = formatTextData({ page, current, title, content });
@@ -70,6 +77,7 @@ const SingleTemplate = (props: Template) => {
     if (JSON.stringify(data) !== "{}") {
       await updateWrapPage(id, data);
       setWrap(await getWrapById(id));
+      setToast("Saved page!");
     }
   };
 
@@ -143,47 +151,9 @@ const SingleTemplate = (props: Template) => {
             )}
           </AnimateIn>
         </div>
-
-        {/* <AnimateIn
-          from="opacity-0 translate-y-4"
-          to="opacity-100 translate-y-0"
-          delay={250}
-          as="div"
-        >
-          <div className="aspect-video w-[100%]">
-            <ImageComponent src={page.imageURL} editing={editing} />
-          </div>
-        </AnimateIn>
-
-        <div className="flex flex-col items-center w-[80%] bg-red-300">
-          <AnimateIn
-            from="opacity-0 translate-y-4"
-            to="opacity-100 translate-y-0"
-            delay={500}
-          >
-            <div className="my-4  bg-orange-400">
-              {editing ? (
-                <input
-                  className="input input-ghost font-yeseva text-center text-4xl font-bold w-[90%]"
-                  maxLength={10}
-                />
-              ) : (
-                <h1 className="font-yeseva text-4xl font-bold text-shadow-psm shadow-neutral">
-                  {page.title}
-                </h1>
-              )}
-            </div>
-          </AnimateIn>
-
-          <AnimateIn
-            from="opacity-0 translate-y-4"
-            to="opacity-100 translate-y-0"
-            delay={750}
-          >
-            <h1 className="text-sm md:text-md">{page.content}</h1>
-          </AnimateIn>
-        </div> */}
       </div>
+
+      <Toast toast={toast} setToast={setToast} />
     </div>
   );
 };

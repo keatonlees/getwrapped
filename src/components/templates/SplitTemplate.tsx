@@ -19,6 +19,7 @@ import { Template } from "@/lib/utils/interfaces";
 import { isEven } from "@/lib/utils/isEven";
 
 import ImageComponent from "../ImageComponent";
+import Toast from "../Toast";
 
 const SplitTemplate = (props: Template) => {
   const {
@@ -35,6 +36,7 @@ const SplitTemplate = (props: Template) => {
   const id = wrap._id.toString();
   const page = wrap.pages[current];
 
+  const [toast, setToast] = useState("");
   const [title, setTitle] = useState(page.title || "");
   const [itemTitles, setItemTitles] = useState<string[]>([]);
   const [itemContents, setItemContents] = useState<string[]>([]);
@@ -67,10 +69,18 @@ const SplitTemplate = (props: Template) => {
   const saveSplitPage = async () => {
     const fileURLs = [];
     if (file1) {
-      fileURLs.push(await getUploadedImageURL(file1));
+      const imageURL1 = await getUploadedImageURL(file1);
+      if (imageURL1 === "error") {
+        setToast("Error uploading image!");
+        return;
+      } else fileURLs.push(imageURL1);
     } else fileURLs.push("");
     if (file2) {
-      fileURLs.push(await getUploadedImageURL(file2));
+      const imageURL2 = await getUploadedImageURL(file2);
+      if (imageURL2 === "error") {
+        setToast("Error uploading image!");
+        return;
+      } else fileURLs.push(imageURL2);
     } else fileURLs.push("");
 
     const colorData = formatColorData({ page, current, bgColor, color });
@@ -107,6 +117,7 @@ const SplitTemplate = (props: Template) => {
     if (JSON.stringify(data) !== "{}") {
       await updateWrapPage(id, data);
       setWrap(await getWrapById(id));
+      setToast("Saved page!");
     }
   };
 
@@ -177,7 +188,7 @@ const SplitTemplate = (props: Template) => {
 
                 {editing ? (
                   <textarea
-                    className="input input-ghost text-center resize-none overflow-auto w-full h-28"
+                    className="input input-ghost text-center resize-none overflow-auto w-full h-12 md:h-28"
                     maxLength={150}
                     defaultValue={item.content}
                     onChange={(e) => handleItemContents(e, i)}
@@ -189,6 +200,8 @@ const SplitTemplate = (props: Template) => {
             </div>
           ))}
       </div>
+
+      <Toast toast={toast} setToast={setToast} />
     </div>
   );
 };

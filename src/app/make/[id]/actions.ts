@@ -85,7 +85,7 @@ export async function getUploadedImageURL(file: File) {
       );
 
       if (signedURLResult.failure !== undefined) {
-        throw new Error(signedURLResult.failure);
+        return "error";
       }
       const url = signedURLResult.success.url;
 
@@ -102,6 +102,7 @@ export async function getUploadedImageURL(file: File) {
     }
   } catch (e) {
     console.log(e);
+    return "error";
   }
 }
 
