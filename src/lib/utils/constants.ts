@@ -9,16 +9,16 @@ export const baseURL = (
 // TODO: update this
 // const defaultBGColor: string = "#FAF9F6";
 // const defaultColor: string = "#202020";
-// export const newWrap: Wrap = {
-//   title: "New Wrap",
-//   pages: [
-//     {
-//       type: "title",
-//       bgColor: defaultBGColor,
-//       color: defaultColor,
-//       content: "Made by Name",
-//     },
-//     { type: "default", bgColor: defaultBGColor, color: defaultColor },
-//     { type: "credits", bgColor: defaultBGColor, color: defaultColor },
-//   ],
-// };
+export const newWrap = {
+  //   title: "New Wrap",
+  //   pages: [
+  //     {
+  //       type: "title",
+  //       bgColor: defaultBGColor,
+  //       color: defaultColor,
+  //       content: "Made by Name",
+  //     },
+  //     { type: "default", bgColor: defaultBGColor, color: defaultColor },
+  //     { type: "credits", bgColor: defaultBGColor, color: defaultColor },
+  //   ],
+};
