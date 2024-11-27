@@ -45,7 +45,7 @@ export async function getSignedUploadUrl(
   if (size > maxFileSize) return { failure: "File too large" };
 
   const putObjectCommand = new PutObjectCommand({
-    Bucket: process.env.AWS_BUCKET_NAME!,
+    Bucket: process.env.AWS_BUCKET_NAME || "getwrapped-images",
     Key: generateFileName(),
     ContentType: type,
     ContentLength: size,
