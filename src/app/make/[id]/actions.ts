@@ -44,8 +44,13 @@ export async function getSignedUploadUrl(
   if (!acceptedTypes.includes(type)) return { failure: "Invalid file type" };
   if (size > maxFileSize) return { failure: "File too large" };
 
+  console.log(process.env.AWS_BUCKET_NAME);
+  console.log(process.env.AWS_BUCKET_REGION);
+  console.log(process.env.AWS_ACCESS_KEY);
+  console.log(process.env.AWS_SECRET_KEY);
+
   const putObjectCommand = new PutObjectCommand({
-    Bucket: process.env.AWS_BUCKET_NAME || "getwrapped-images",
+    Bucket: process.env.AWS_BUCKET_NAME,
     Key: generateFileName(),
     ContentType: type,
     ContentLength: size,
