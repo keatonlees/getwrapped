@@ -54,6 +54,8 @@ const CreditsTemplate = (props: Template) => {
           {page.title}
         </h1>
       </AnimateIn>
+
+      {/* TODO: Add more to Credits */}
     </div>
   );
 };

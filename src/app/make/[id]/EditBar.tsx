@@ -36,12 +36,12 @@ const EditBar = (props: EditBar) => {
     <div className="flex h-12 items-center justify-center absolute top-4 gap-2">
       <button onClick={savePage} className="btn btn-primary btn-md">
         <FaSave className="text-lg" />
-        Save Page
+        <span className="hidden md:block">Save Page</span>
       </button>
 
       <div className="flex h-12 items-center justify-center pl-4 pr-2 bg-neutral rounded-xl">
         <label className="flex items-center gap-2 text-white">
-          Page:
+          <div className="hidden md:block">Page:</div>
           <input
             id="bgColorInput"
             type="color"
@@ -56,8 +56,8 @@ const EditBar = (props: EditBar) => {
 
         <div className="divider divider-horizontal mx-1"></div>
 
-        <label className="flex items-center gap-2 text-white">
-          Accent:
+        <label className="flex items-center gap-2 text-white mr-1 md:mr-0">
+          <div className="hidden md:block">Accent:</div>
           <input
             id="colorInput"
             type="color"
@@ -70,9 +70,9 @@ const EditBar = (props: EditBar) => {
           </button>
         </label>
 
-        <div className="divider divider-horizontal ml-1 mr-0"></div>
+        <div className="divider divider-horizontal ml-1 mr-0 hidden md:flex"></div>
 
-        <label className="flex items-center gap-2 text-white">
+        <label className="items-center gap-2 text-white hidden md:block">
           <button
             onClick={openPreview}
             className="btn btn-ghost btn-sm rounded-md"
@@ -84,7 +84,7 @@ const EditBar = (props: EditBar) => {
       </div>
       <button className="btn btn-success btn-md">
         <FaPlus className="text-lg" />
-        Add Page
+        <span className="hidden md:block">Add Page</span>
       </button>
     </div>
   );

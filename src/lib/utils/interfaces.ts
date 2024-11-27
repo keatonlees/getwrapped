@@ -11,11 +11,9 @@ export interface Page {
   bgColor: string;
   color: string;
   title?: string;
-  subtitle?: string;
   content?: string;
   imageURL?: string;
-  columns?: Cell[];
-  rows?: Cell[];
+  items?: Cell[];
 }
 interface Cell {
   title: string;
