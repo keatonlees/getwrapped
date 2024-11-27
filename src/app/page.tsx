@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
-import { createNewWrap } from "./actions";
 import { redirect } from "next/navigation";
+import React from "react";
+
+import { createNewWrap } from "./actions";
 
 export default function Home() {
   const handleCreate = async () => {

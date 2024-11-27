@@ -1,10 +1,11 @@
-import AnimateIn from "@/lib/animations/AnimateIn";
-import { Wrap } from "@/lib/utils/interfaces";
 import React from "react";
 import {
   TbArrowBadgeLeftFilled,
   TbArrowBadgeRightFilled,
 } from "react-icons/tb";
+
+import AnimateIn from "@/lib/animations/AnimateIn";
+import { Wrap } from "@/lib/utils/interfaces";
 
 interface Pagination {
   current: number;
@@ -14,13 +15,9 @@ interface Pagination {
   setColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Pagination = ({
-  current,
-  setCurrent,
-  wrap,
-  setBgColor,
-  setColor,
-}: Pagination) => {
+const Pagination = (props: Pagination) => {
+  const { wrap, current, setCurrent, setBgColor, setColor } = props;
+
   const length = wrap.pages.length;
 
   const resetColors = () => {

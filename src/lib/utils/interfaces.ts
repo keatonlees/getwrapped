@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 
 export interface Wrap {
-  _id?: ObjectId;
+  _id: ObjectId;
   title: string;
   pages: Page[];
 }
@@ -11,11 +11,9 @@ export interface Page {
   bgColor: string;
   color: string;
   title?: string;
-  subtitle?: string;
   content?: string;
   imageURL?: string;
-  columns?: Cell[];
-  rows?: Cell[];
+  items?: Cell[];
 }
 interface Cell {
   title: string;
@@ -26,4 +24,10 @@ interface Cell {
 export interface Template {
   wrap: Wrap;
   current: number;
+  editing: boolean;
+  bgColor: string;
+  color: string;
+  setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
+  setBgColor: React.Dispatch<React.SetStateAction<string>>;
+  setColor: React.Dispatch<React.SetStateAction<string>>;
 }

@@ -1,10 +1,20 @@
-import React from "react";
 import Image from "next/image";
+import React from "react";
+import { TbUpload, TbTrashXFilled } from "react-icons/tb";
+
 import placeholder from "../../public/placeholder.svg";
 
-const ImageComponent = ({ src }: { src: string | undefined }) => {
-  const [file, setFile] = React.useState<File | undefined>(undefined);
-  const [fileURL, setFileURL] = React.useState<string | undefined>(undefined);
+interface ImageComponent {
+  src: string | undefined;
+  editing: boolean;
+  file: File | undefined;
+  fileURL: string | undefined;
+  setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
+  setFileURL: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+
+const ImageComponent = (props: ImageComponent) => {
+  const { src, editing, file, fileURL, setFile, setFileURL } = props;
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -48,24 +58,28 @@ const ImageComponent = ({ src }: { src: string | undefined }) => {
         </div>
 
         {/* Upload */}
-        <label className="btn btn-primary btn-sm absolute bottom-2 left-2">
-          Upload
-          <input
-            type="file"
-            className="hidden"
-            name="media"
-            accept="image/jpeg, image/png, image/webp"
-            onChange={handleUpload}
-          />
-        </label>
+        {editing && (
+          <label className="btn btn-primary absolute bottom-2 left-2">
+            <TbUpload className="text-xl" />
+            {/* Upload */}
+            <input
+              type="file"
+              className="hidden"
+              name="media"
+              accept="image/jpeg, image/png, image/webp"
+              onChange={handleUpload}
+            />
+          </label>
+        )}
 
         {/* Discard */}
         {fileURL && file && (
           <button
-            className="btn-error btn-sm absolute bottom-2 right-2 btn"
+            className="btn-error absolute bottom-2 right-2 btn"
             onClick={handleDiscard}
           >
-            Discard
+            <TbTrashXFilled className="text-xl" />
+            {/* Discard */}
           </button>
         )}
       </form>
