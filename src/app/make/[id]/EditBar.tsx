@@ -8,13 +8,14 @@ import { Page } from "@/lib/utils/interfaces";
 interface EditBar {
   id: string;
   page: Page;
+  length: number;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
   setColor: React.Dispatch<React.SetStateAction<string>>;
   savePage: () => void;
 }
 
 const EditBar = (props: EditBar) => {
-  const { id, page, setBgColor, setColor, savePage } = props;
+  const { id, page, length, setBgColor, setColor, savePage } = props;
 
   const resetBgColor = () => {
     (document.getElementById("bgColorInput") as HTMLInputElement).value =
@@ -30,6 +31,10 @@ const EditBar = (props: EditBar) => {
 
   const openPreview = () => {
     if (id) window.open(`${baseURL}/view/${id}`, "_blank");
+  };
+
+  const addPage = () => {
+    console.log(length);
   };
 
   return (
@@ -82,9 +87,21 @@ const EditBar = (props: EditBar) => {
           </button>
         </label>
       </div>
-      <button className="btn btn-success btn-md">
+      <button
+        className="btn btn-success btn-md"
+        disabled={length >= 10}
+        onClick={addPage}
+      >
         <FaPlus className="text-lg" />
         <span className="hidden md:block">Add Page</span>
+      </button>
+      <button
+        className="btn btn-error btn-md"
+        disabled={length >= 10}
+        onClick={addPage}
+      >
+        <TbTrashXFilled className="text-xl" />
+        <span className="hidden md:block">Delete Page</span>
       </button>
     </div>
   );

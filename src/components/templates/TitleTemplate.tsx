@@ -61,6 +61,7 @@ const TitleTemplate = (props: Template) => {
         <EditBar
           id={id}
           page={page}
+          length={wrap.pages.length}
           setBgColor={setBgColor}
           setColor={setColor}
           savePage={saveTitlePage}
