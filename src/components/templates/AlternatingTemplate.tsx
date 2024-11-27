@@ -15,6 +15,7 @@ import { Template } from "@/lib/utils/interfaces";
 import { isEven } from "@/lib/utils/isEven";
 
 import ImageComponent from "../ImageComponent";
+import Toast from "../Toast";
 
 const AlternatingTemplate = (props: Template) => {
   const {
@@ -31,6 +32,7 @@ const AlternatingTemplate = (props: Template) => {
   const id = wrap._id.toString();
   const page = wrap.pages[current];
 
+  const [toast, setToast] = useState("");
   const [title, setTitle] = useState(page.title || "");
   const [itemTitles, setItemTitles] = useState<string[]>([]);
   const [itemContents, setItemContents] = useState<string[]>([]);
@@ -67,16 +69,32 @@ const AlternatingTemplate = (props: Template) => {
   const saveAlternatingPage = async () => {
     const fileURLs = [];
     if (file1) {
-      fileURLs.push(await getUploadedImageURL(file1));
+      const imageURL1 = await getUploadedImageURL(file1);
+      if (imageURL1 === "error") {
+        setToast("Error uploading image!");
+        return;
+      } else fileURLs.push(imageURL1);
     } else fileURLs.push("");
     if (file2) {
-      fileURLs.push(await getUploadedImageURL(file2));
+      const imageURL2 = await getUploadedImageURL(file2);
+      if (imageURL2 === "error") {
+        setToast("Error uploading image!");
+        return;
+      } else fileURLs.push(imageURL2);
     } else fileURLs.push("");
     if (file3) {
-      fileURLs.push(await getUploadedImageURL(file3));
+      const imageURL3 = await getUploadedImageURL(file3);
+      if (imageURL3 === "error") {
+        setToast("Error uploading image!");
+        return;
+      } else fileURLs.push(imageURL3);
     } else fileURLs.push("");
     if (file4) {
-      fileURLs.push(await getUploadedImageURL(file4));
+      const imageURL4 = await getUploadedImageURL(file4);
+      if (imageURL4 === "error") {
+        setToast("Error uploading image!");
+        return;
+      } else fileURLs.push(imageURL4);
     } else fileURLs.push("");
 
     const colorData = formatColorData({ page, current, bgColor, color });
@@ -105,6 +123,7 @@ const AlternatingTemplate = (props: Template) => {
     if (JSON.stringify(data) !== "{}") {
       await updateWrapPage(id, data);
       setWrap(await getWrapById(id));
+      setToast("Saved page!");
     }
   };
 
@@ -184,7 +203,7 @@ const AlternatingTemplate = (props: Template) => {
 
                   {editing ? (
                     <textarea
-                      className={`input input-ghost resize-none overflow-auto w-full h-16 ${
+                      className={`input input-ghost resize-none overflow-auto w-full h-10 md:h-16 ${
                         isEven(i) ? "" : "text-right"
                       }`}
                       maxLength={150}
@@ -199,6 +218,8 @@ const AlternatingTemplate = (props: Template) => {
             </AnimateIn>
           ))}
       </div>
+
+      <Toast toast={toast} setToast={setToast} />
     </div>
   );
 };

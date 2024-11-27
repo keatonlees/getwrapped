@@ -8,6 +8,8 @@ import AnimateIn from "@/lib/animations/AnimateIn";
 import { formatColorData, formatTextData } from "@/lib/mongo/formatData";
 import { Template } from "@/lib/utils/interfaces";
 
+import Toast from "../Toast";
+
 const TitleTemplate = (props: Template) => {
   const {
     editing,
@@ -24,6 +26,7 @@ const TitleTemplate = (props: Template) => {
   const page = wrap.pages[current];
   const type = page.type;
 
+  const [toast, setToast] = useState("");
   const [title, setTitle] = useState(wrap.title || "");
   const [content, setContent] = useState(page.content || "");
 
@@ -48,6 +51,7 @@ const TitleTemplate = (props: Template) => {
     if (JSON.stringify(data) !== "{}") {
       await updateWrapPage(id, data);
       setWrap(await getWrapById(id));
+      setToast("Saved page!");
     }
   };
 
@@ -102,6 +106,8 @@ const TitleTemplate = (props: Template) => {
           )}
         </AnimateIn>
       </div>
+
+      <Toast toast={toast} setToast={setToast} />
     </div>
   );
 };

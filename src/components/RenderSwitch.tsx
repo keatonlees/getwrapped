@@ -4,9 +4,9 @@ import { PageType } from "@/lib/utils/enums";
 import { Template } from "@/lib/utils/interfaces";
 
 import AlternatingTemplate from "./templates/AlternatingTemplate";
-import ColumnsTemplate from "./templates/ColumnsTemplate";
+// import ColumnsTemplate from "./templates/ColumnsTemplate";
 import CreditsTemplate from "./templates/CreditsTemplate";
-import RowsTemplate from "./templates/RowsTemplate";
+// import RowsTemplate from "./templates/RowsTemplate";
 import SingleTemplate from "./templates/SingleTemplate";
 import SplitTemplate from "./templates/SplitTemplate";
 import TitleTemplate from "./templates/TitleTemplate";
@@ -46,11 +46,11 @@ const RenderSwitch = (props: Template) => {
     case PageType.SPLIT:
       return <SplitTemplate {...template} />;
 
-    case PageType.COLUMNS:
-      return <ColumnsTemplate {...template} />;
+    // case PageType.COLUMNS:
+    //   return <ColumnsTemplate {...template} />;
 
-    case PageType.ROWS:
-      return <RowsTemplate {...template} />;
+    // case PageType.ROWS:
+    //   return <RowsTemplate {...template} />;
 
     case PageType.ALTERNATING:
       return <AlternatingTemplate {...template} />;
