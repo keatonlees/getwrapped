@@ -8,7 +8,7 @@ import AnimateIn from "@/lib/animations/AnimateIn";
 import { formatColorData } from "@/lib/mongo/formatData";
 import { Template } from "@/lib/utils/interfaces";
 
-import ImageComponent from "../ImageComponent";
+// import ImageComponent from "../ImageComponent";
 
 const RowsTemplate = (props: Template) => {
   const {
@@ -58,8 +58,8 @@ const RowsTemplate = (props: Template) => {
       </AnimateIn>
 
       <div className="flex flex-col gap-4 mb-4 max-w-[90%] md:max-w-[50%]">
-        {page.rows &&
-          page.rows.map((row, i) => (
+        {page.items &&
+          page.items.map((item, i) => (
             <AnimateIn
               key={i}
               from="opacity-0 -translate-x-4"
@@ -68,13 +68,13 @@ const RowsTemplate = (props: Template) => {
             >
               <div className="flex gap-4">
                 <div className="aspect-video h-[9dvh] 2xl:h-[11dvh] max-h-[11dvh]">
-                  <ImageComponent src={row.imageURL} editing={editing} />
+                  {/* <ImageComponent src={item.imageURL} editing={editing} /> */}
                 </div>
                 <div className="flex flex-col justify-center max-h-[100%]">
                   <div className="font-yeseva font-bold text-lg md:text-xl">
-                    {row.title}
+                    {item.title}
                   </div>
-                  <div className="text-sm md:text-md">{row.content}</div>
+                  <div className="text-sm md:text-md">{item.content}</div>
                 </div>
               </div>
             </AnimateIn>

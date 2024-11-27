@@ -11,7 +11,7 @@ import { formatColorData } from "@/lib/mongo/formatData";
 import { Template } from "@/lib/utils/interfaces";
 import useWindowDimensions from "@/lib/utils/window";
 
-import ImageComponent from "../ImageComponent";
+// import ImageComponent from "../ImageComponent";
 
 const ColumnsTemplate = (props: Template) => {
   const {
@@ -42,8 +42,8 @@ const ColumnsTemplate = (props: Template) => {
   const DesktopView = () => {
     return (
       <div className="h-fit flex justify-between gap-8 xl:gap-16 mb-8">
-        {page.columns &&
-          page.columns.map((col, i) => (
+        {page.items &&
+          page.items.map((item, i) => (
             <div
               key={i}
               className="flex flex-col items-center justify-center 2xl:max-w-60 xl:max-w-40"
@@ -54,12 +54,12 @@ const ColumnsTemplate = (props: Template) => {
                 delay={250 * (i + 2)}
               >
                 <div className="aspect-square w-40 2xl:w-60">
-                  <ImageComponent src={page.imageURL} editing={editing} />
+                  {/* <ImageComponent src={page.imageURL} editing={editing} /> */}
                 </div>
                 <div className="font-yeseva font-bold text-lg 2xl:text-2xl my-4">
-                  {col.title}
+                  {item.title}
                 </div>
-                <div className="text-sm 2xl:text-md">{col.content}</div>
+                <div className="text-sm 2xl:text-md">{item.content}</div>
               </AnimateIn>
             </div>
           ))}
