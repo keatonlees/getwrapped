@@ -25,6 +25,7 @@ const DeleteModal = (props: DeleteModal) => {
     await updateWrapPage(id, { $pull: { pages: null } });
     setWrap(await getWrapById(id));
     setToast("Deleted page!");
+    toggleModal();
     setLoading(false);
   };
 
