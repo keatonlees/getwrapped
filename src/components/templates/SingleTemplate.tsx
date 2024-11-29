@@ -19,6 +19,8 @@ import { Template } from "@/lib/utils/interfaces";
 import ImageComponent from "../ImageComponent";
 import Toast from "../Toast";
 
+import AddModal from "./AddModal";
+
 const SingleTemplate = (props: Template) => {
   const {
     editing,
@@ -39,6 +41,12 @@ const SingleTemplate = (props: Template) => {
   const [content, setContent] = useState(page.content || "");
   const [file, setFile] = React.useState<File | undefined>(undefined);
   const [fileURL, setFileURL] = React.useState<string | undefined>(undefined);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -75,8 +83,10 @@ const SingleTemplate = (props: Template) => {
 
     // send data to action and refetch
     if (JSON.stringify(data) !== "{}") {
-      await updateWrapPage(id, data);
+      await updateWrapPage(id, { $set: data });
       setWrap(await getWrapById(id));
+      setFile(undefined);
+      setFileURL(undefined);
       setToast("Saved page!");
     }
   };
@@ -84,13 +94,30 @@ const SingleTemplate = (props: Template) => {
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center text-center overflow-hidden">
       {editing && page && (
-        <EditBar
-          id={id}
-          page={page}
-          setBgColor={setBgColor}
-          setColor={setColor}
-          savePage={saveSinglePage}
-        />
+        <>
+          <EditBar
+            id={id}
+            current={current}
+            page={page}
+            length={wrap.pages.length}
+            setBgColor={setBgColor}
+            setColor={setColor}
+            setWrap={setWrap}
+            setToast={setToast}
+            savePage={saveSinglePage}
+            toggleModal={toggleModal}
+          />
+
+          {showModal && (
+            <AddModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleModal}
+            />
+          )}
+        </>
       )}
 
       <div className="flex flex-col items-center w-[70dvw] xl:w-[40dvw]">

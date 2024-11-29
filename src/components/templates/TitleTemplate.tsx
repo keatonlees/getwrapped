@@ -10,6 +10,8 @@ import { Template } from "@/lib/utils/interfaces";
 
 import Toast from "../Toast";
 
+import AddModal from "./AddModal";
+
 const TitleTemplate = (props: Template) => {
   const {
     editing,
@@ -30,6 +32,12 @@ const TitleTemplate = (props: Template) => {
   const [title, setTitle] = useState(wrap.title || "");
   const [content, setContent] = useState(page.content || "");
 
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
@@ -49,7 +57,7 @@ const TitleTemplate = (props: Template) => {
 
     // send data to action and refetch
     if (JSON.stringify(data) !== "{}") {
-      await updateWrapPage(id, data);
+      await updateWrapPage(id, { $set: data });
       setWrap(await getWrapById(id));
       setToast("Saved page!");
     }
@@ -58,14 +66,30 @@ const TitleTemplate = (props: Template) => {
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center text-center">
       {editing && page && (
-        <EditBar
-          id={id}
-          page={page}
-          length={wrap.pages.length}
-          setBgColor={setBgColor}
-          setColor={setColor}
-          savePage={saveTitlePage}
-        />
+        <>
+          <EditBar
+            id={id}
+            current={current}
+            page={page}
+            length={wrap.pages.length}
+            setBgColor={setBgColor}
+            setColor={setColor}
+            setWrap={setWrap}
+            setToast={setToast}
+            savePage={saveTitlePage}
+            toggleModal={toggleModal}
+          />
+
+          {showModal && (
+            <AddModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleModal}
+            />
+          )}
+        </>
       )}
 
       <div className="flex flex-col gap-2 items-center justify-center w-[90dvw] xl:w-[50dvw] h-full">

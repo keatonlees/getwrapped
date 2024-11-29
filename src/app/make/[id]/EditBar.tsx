@@ -2,20 +2,39 @@ import React from "react";
 import { FaSave, FaPlus } from "react-icons/fa";
 import { TbTrashXFilled, TbExternalLink } from "react-icons/tb";
 
+import { getWrapById } from "@/app/view/[id]/actions";
+
 import { baseURL } from "@/lib/utils/constants";
-import { Page } from "@/lib/utils/interfaces";
+import { Page, Wrap } from "@/lib/utils/interfaces";
+
+import { updateWrapPage } from "./actions";
 
 interface EditBar {
   id: string;
+  current: number;
   page: Page;
   length: number;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
   setColor: React.Dispatch<React.SetStateAction<string>>;
+  setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
+  setToast: React.Dispatch<React.SetStateAction<string>>;
   savePage: () => void;
+  toggleModal: () => void;
 }
 
 const EditBar = (props: EditBar) => {
-  const { id, page, length, setBgColor, setColor, savePage } = props;
+  const {
+    id,
+    current,
+    page,
+    length,
+    setBgColor,
+    setColor,
+    setWrap,
+    setToast,
+    savePage,
+    toggleModal,
+  } = props;
 
   const resetBgColor = () => {
     (document.getElementById("bgColorInput") as HTMLInputElement).value =
@@ -33,8 +52,11 @@ const EditBar = (props: EditBar) => {
     if (id) window.open(`${baseURL}/view/${id}`, "_blank");
   };
 
-  const addPage = () => {
-    console.log(length);
+  const deletePage = async () => {
+    await updateWrapPage(id, { $unset: { [`pages.${current}`]: null } });
+    await updateWrapPage(id, { $pull: { pages: null } });
+    setWrap(await getWrapById(id));
+    setToast("Deleted page!");
   };
 
   return (
@@ -89,16 +111,18 @@ const EditBar = (props: EditBar) => {
       </div>
       <button
         className="btn btn-success btn-md"
-        disabled={length >= 10}
-        onClick={addPage}
+        disabled={length >= 10 || page.type === "credits"}
+        onClick={toggleModal}
       >
         <FaPlus className="text-lg" />
         <span className="hidden md:block">Add Page</span>
       </button>
       <button
         className="btn btn-error btn-md"
-        disabled={length >= 10}
-        onClick={addPage}
+        disabled={
+          length <= 1 || page.type === "title" || page.type === "credits"
+        }
+        onClick={deletePage}
       >
         <TbTrashXFilled className="text-xl" />
         <span className="hidden md:block">Delete Page</span>
