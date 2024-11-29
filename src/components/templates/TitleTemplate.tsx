@@ -8,9 +8,8 @@ import AnimateIn from "@/lib/animations/AnimateIn";
 import { formatColorData, formatTextData } from "@/lib/mongo/formatData";
 import { Template } from "@/lib/utils/interfaces";
 
+import AddModal from "../AddModal";
 import Toast from "../Toast";
-
-import AddModal from "./AddModal";
 
 const TitleTemplate = (props: Template) => {
   const {
@@ -32,10 +31,14 @@ const TitleTemplate = (props: Template) => {
   const [title, setTitle] = useState(wrap.title || "");
   const [content, setContent] = useState(page.content || "");
 
-  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
+  const toggleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
   };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,24 +72,22 @@ const TitleTemplate = (props: Template) => {
         <>
           <EditBar
             id={id}
-            current={current}
             page={page}
             length={wrap.pages.length}
             setBgColor={setBgColor}
             setColor={setColor}
-            setWrap={setWrap}
-            setToast={setToast}
             savePage={saveTitlePage}
-            toggleModal={toggleModal}
+            toggleAddModal={toggleAddModal}
+            toggleDeleteModal={toggleDeleteModal}
           />
 
-          {showModal && (
+          {showAddModal && (
             <AddModal
               id={id}
               current={current}
               setWrap={setWrap}
               setToast={setToast}
-              toggleModal={toggleModal}
+              toggleModal={toggleAddModal}
             />
           )}
         </>

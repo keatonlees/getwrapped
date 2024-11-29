@@ -2,38 +2,30 @@ import React from "react";
 import { FaSave, FaPlus } from "react-icons/fa";
 import { TbTrashXFilled, TbExternalLink } from "react-icons/tb";
 
-import { getWrapById } from "@/app/view/[id]/actions";
-
 import { baseURL } from "@/lib/utils/constants";
-import { Page, Wrap } from "@/lib/utils/interfaces";
-
-import { updateWrapPage } from "./actions";
+import { Page } from "@/lib/utils/interfaces";
 
 interface EditBar {
   id: string;
-  current: number;
   page: Page;
   length: number;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
   setColor: React.Dispatch<React.SetStateAction<string>>;
-  setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
-  setToast: React.Dispatch<React.SetStateAction<string>>;
   savePage: () => void;
-  toggleModal: () => void;
+  toggleAddModal: () => void;
+  toggleDeleteModal: () => void;
 }
 
 const EditBar = (props: EditBar) => {
   const {
     id,
-    current,
     page,
     length,
     setBgColor,
     setColor,
-    setWrap,
-    setToast,
     savePage,
-    toggleModal,
+    toggleAddModal,
+    toggleDeleteModal,
   } = props;
 
   const resetBgColor = () => {
@@ -50,13 +42,6 @@ const EditBar = (props: EditBar) => {
 
   const openPreview = () => {
     if (id) window.open(`${baseURL}/view/${id}`, "_blank");
-  };
-
-  const deletePage = async () => {
-    await updateWrapPage(id, { $unset: { [`pages.${current}`]: null } });
-    await updateWrapPage(id, { $pull: { pages: null } });
-    setWrap(await getWrapById(id));
-    setToast("Deleted page!");
   };
 
   return (
@@ -112,7 +97,7 @@ const EditBar = (props: EditBar) => {
       <button
         className="btn btn-success btn-md"
         disabled={length >= 10 || page.type === "credits"}
-        onClick={toggleModal}
+        onClick={toggleAddModal}
       >
         <FaPlus className="text-lg" />
         <span className="hidden md:block">Add Page</span>
@@ -122,7 +107,7 @@ const EditBar = (props: EditBar) => {
         disabled={
           length <= 1 || page.type === "title" || page.type === "credits"
         }
-        onClick={deletePage}
+        onClick={toggleDeleteModal}
       >
         <TbTrashXFilled className="text-xl" />
         <span className="hidden md:block">Delete Page</span>

@@ -18,10 +18,10 @@ import {
 import { Template } from "@/lib/utils/interfaces";
 import { isEven } from "@/lib/utils/isEven";
 
+import AddModal from "../AddModal";
+import DeleteModal from "../DeleteModal";
 import ImageComponent from "../ImageComponent";
 import Toast from "../Toast";
-
-import AddModal from "./AddModal";
 
 const SplitTemplate = (props: Template) => {
   const {
@@ -48,10 +48,14 @@ const SplitTemplate = (props: Template) => {
   const [fileURL1, setFileURL1] = useState<string | undefined>(undefined);
   const [fileURL2, setFileURL2] = useState<string | undefined>(undefined);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
+  const toggleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
   };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,24 +143,32 @@ const SplitTemplate = (props: Template) => {
         <>
           <EditBar
             id={id}
-            current={current}
             page={page}
             length={wrap.pages.length}
             setBgColor={setBgColor}
             setColor={setColor}
-            setWrap={setWrap}
-            setToast={setToast}
             savePage={saveSplitPage}
-            toggleModal={toggleModal}
+            toggleAddModal={toggleAddModal}
+            toggleDeleteModal={toggleDeleteModal}
           />
 
-          {showModal && (
+          {showAddModal && (
             <AddModal
               id={id}
               current={current}
               setWrap={setWrap}
               setToast={setToast}
-              toggleModal={toggleModal}
+              toggleModal={toggleAddModal}
+            />
+          )}
+
+          {showDeleteModal && (
+            <DeleteModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleDeleteModal}
             />
           )}
         </>

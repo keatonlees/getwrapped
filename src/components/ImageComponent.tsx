@@ -59,7 +59,7 @@ const ImageComponent = (props: ImageComponent) => {
 
         {/* Upload */}
         {editing && (
-          <label className="btn btn-primary absolute bottom-2 left-2">
+          <label className="btn btn-primary btn-sm absolute bottom-2 left-2">
             <TbUpload className="text-xl" />
             {/* Upload */}
             <input
@@ -75,7 +75,7 @@ const ImageComponent = (props: ImageComponent) => {
         {/* Discard */}
         {fileURL && file && (
           <button
-            className="btn-error absolute bottom-2 right-2 btn"
+            className="btn-error btn-sm absolute bottom-2 right-2 btn"
             onClick={handleDiscard}
           >
             <TbTrashXFilled className="text-xl" />

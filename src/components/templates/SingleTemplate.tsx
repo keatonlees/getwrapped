@@ -16,10 +16,10 @@ import {
 } from "@/lib/mongo/formatData";
 import { Template } from "@/lib/utils/interfaces";
 
+import AddModal from "../AddModal";
+import DeleteModal from "../DeleteModal";
 import ImageComponent from "../ImageComponent";
 import Toast from "../Toast";
-
-import AddModal from "./AddModal";
 
 const SingleTemplate = (props: Template) => {
   const {
@@ -42,10 +42,14 @@ const SingleTemplate = (props: Template) => {
   const [file, setFile] = React.useState<File | undefined>(undefined);
   const [fileURL, setFileURL] = React.useState<string | undefined>(undefined);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
+  const toggleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
   };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,24 +101,32 @@ const SingleTemplate = (props: Template) => {
         <>
           <EditBar
             id={id}
-            current={current}
             page={page}
             length={wrap.pages.length}
             setBgColor={setBgColor}
             setColor={setColor}
-            setWrap={setWrap}
-            setToast={setToast}
             savePage={saveSinglePage}
-            toggleModal={toggleModal}
+            toggleAddModal={toggleAddModal}
+            toggleDeleteModal={toggleDeleteModal}
           />
 
-          {showModal && (
+          {showAddModal && (
             <AddModal
               id={id}
               current={current}
               setWrap={setWrap}
               setToast={setToast}
-              toggleModal={toggleModal}
+              toggleModal={toggleAddModal}
+            />
+          )}
+
+          {showDeleteModal && (
+            <DeleteModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleDeleteModal}
             />
           )}
         </>
@@ -127,7 +139,7 @@ const SingleTemplate = (props: Template) => {
           delay={250}
           as="div"
         >
-          <div className="aspect-video w-[70dvw] xl:w-[40dvw]">
+          <div className="aspect-video w-[65dvw] xl:w-[35dvw]">
             <ImageComponent
               src={page.imageURL}
               editing={editing}

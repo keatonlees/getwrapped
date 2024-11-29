@@ -14,10 +14,10 @@ import { formatColorData, formatImageArrayData } from "@/lib/mongo/formatData";
 import { Template } from "@/lib/utils/interfaces";
 import { isEven } from "@/lib/utils/isEven";
 
+import AddModal from "../AddModal";
+import DeleteModal from "../DeleteModal";
 import ImageComponent from "../ImageComponent";
 import Toast from "../Toast";
-
-import AddModal from "./AddModal";
 
 const AlternatingTemplate = (props: Template) => {
   const {
@@ -48,10 +48,14 @@ const AlternatingTemplate = (props: Template) => {
   const [fileURL3, setFileURL3] = useState<string | undefined>(undefined);
   const [fileURL4, setFileURL4] = useState<string | undefined>(undefined);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
+  const toggleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
   };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,24 +153,32 @@ const AlternatingTemplate = (props: Template) => {
         <>
           <EditBar
             id={id}
-            current={current}
             page={page}
             length={wrap.pages.length}
             setBgColor={setBgColor}
             setColor={setColor}
-            setWrap={setWrap}
-            setToast={setToast}
             savePage={saveAlternatingPage}
-            toggleModal={toggleModal}
+            toggleAddModal={toggleAddModal}
+            toggleDeleteModal={toggleDeleteModal}
           />
 
-          {showModal && (
+          {showAddModal && (
             <AddModal
               id={id}
               current={current}
               setWrap={setWrap}
               setToast={setToast}
-              toggleModal={toggleModal}
+              toggleModal={toggleAddModal}
+            />
+          )}
+
+          {showDeleteModal && (
+            <DeleteModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleDeleteModal}
             />
           )}
         </>
@@ -236,7 +248,7 @@ const AlternatingTemplate = (props: Template) => {
 
                   {editing ? (
                     <textarea
-                      className={`input input-ghost resize-none overflow-auto w-full h-10 md:h-16 ${
+                      className={`input input-ghost resize-none overflow-auto w-full h-10 md:h-12 ${
                         isEven(i) ? "" : "text-right"
                       }`}
                       maxLength={150}
