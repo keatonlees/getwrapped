@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { updateWrapPage } from "@/app/make/[id]/actions";
 import EditBar from "@/app/make/[id]/EditBar";
@@ -23,6 +23,16 @@ const CreditsTemplate = (props: Template) => {
   const id = wrap._id.toString();
   const page = wrap.pages[current];
 
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const toggleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
+  };
+
   const saveCreditsPage = async () => {
     const data = formatColorData({ page, current, bgColor, color });
 
@@ -39,9 +49,12 @@ const CreditsTemplate = (props: Template) => {
         <EditBar
           id={id}
           page={page}
+          length={wrap.pages.length}
           setBgColor={setBgColor}
           setColor={setColor}
           savePage={saveCreditsPage}
+          toggleAddModal={toggleAddModal}
+          toggleDeleteModal={toggleDeleteModal}
         />
       )}
 
