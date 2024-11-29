@@ -8,6 +8,7 @@ import AnimateIn from "@/lib/animations/AnimateIn";
 import { formatColorData, formatTextData } from "@/lib/mongo/formatData";
 import { Template } from "@/lib/utils/interfaces";
 
+import AddModal from "../AddModal";
 import Toast from "../Toast";
 
 const TitleTemplate = (props: Template) => {
@@ -30,6 +31,16 @@ const TitleTemplate = (props: Template) => {
   const [title, setTitle] = useState(wrap.title || "");
   const [content, setContent] = useState(page.content || "");
 
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const toggleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
+  };
+
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
@@ -49,7 +60,7 @@ const TitleTemplate = (props: Template) => {
 
     // send data to action and refetch
     if (JSON.stringify(data) !== "{}") {
-      await updateWrapPage(id, data);
+      await updateWrapPage(id, { $set: data });
       setWrap(await getWrapById(id));
       setToast("Saved page!");
     }
@@ -58,13 +69,28 @@ const TitleTemplate = (props: Template) => {
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center text-center">
       {editing && page && (
-        <EditBar
-          id={id}
-          page={page}
-          setBgColor={setBgColor}
-          setColor={setColor}
-          savePage={saveTitlePage}
-        />
+        <>
+          <EditBar
+            id={id}
+            page={page}
+            length={wrap.pages.length}
+            setBgColor={setBgColor}
+            setColor={setColor}
+            savePage={saveTitlePage}
+            toggleAddModal={toggleAddModal}
+            toggleDeleteModal={toggleDeleteModal}
+          />
+
+          {showAddModal && (
+            <AddModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleAddModal}
+            />
+          )}
+        </>
       )}
 
       <div className="flex flex-col gap-2 items-center justify-center w-[90dvw] xl:w-[50dvw] h-full">

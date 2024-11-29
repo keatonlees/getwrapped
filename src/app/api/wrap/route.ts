@@ -36,7 +36,7 @@ export async function PUT(request: NextRequest) {
 
     const result = await wrapsDB.updateOne(
       { _id: new ObjectId(id) },
-      { $set: body.query }
+      body.query
     );
     return NextResponse.json(result);
   } catch (e) {

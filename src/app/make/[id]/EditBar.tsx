@@ -8,13 +8,25 @@ import { Page } from "@/lib/utils/interfaces";
 interface EditBar {
   id: string;
   page: Page;
+  length: number;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
   setColor: React.Dispatch<React.SetStateAction<string>>;
   savePage: () => void;
+  toggleAddModal: () => void;
+  toggleDeleteModal: () => void;
 }
 
 const EditBar = (props: EditBar) => {
-  const { id, page, setBgColor, setColor, savePage } = props;
+  const {
+    id,
+    page,
+    length,
+    setBgColor,
+    setColor,
+    savePage,
+    toggleAddModal,
+    toggleDeleteModal,
+  } = props;
 
   const resetBgColor = () => {
     (document.getElementById("bgColorInput") as HTMLInputElement).value =
@@ -82,9 +94,23 @@ const EditBar = (props: EditBar) => {
           </button>
         </label>
       </div>
-      <button className="btn btn-success btn-md">
+      <button
+        className="btn btn-success btn-md"
+        disabled={length >= 10 || page.type === "credits"}
+        onClick={toggleAddModal}
+      >
         <FaPlus className="text-lg" />
         <span className="hidden md:block">Add Page</span>
+      </button>
+      <button
+        className="btn btn-error btn-md"
+        disabled={
+          length <= 1 || page.type === "title" || page.type === "credits"
+        }
+        onClick={toggleDeleteModal}
+      >
+        <TbTrashXFilled className="text-xl" />
+        <span className="hidden md:block">Delete Page</span>
       </button>
     </div>
   );

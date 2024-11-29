@@ -14,6 +14,8 @@ import { formatColorData, formatImageArrayData } from "@/lib/mongo/formatData";
 import { Template } from "@/lib/utils/interfaces";
 import { isEven } from "@/lib/utils/isEven";
 
+import AddModal from "../AddModal";
+import DeleteModal from "../DeleteModal";
 import ImageComponent from "../ImageComponent";
 import Toast from "../Toast";
 
@@ -45,6 +47,16 @@ const AlternatingTemplate = (props: Template) => {
   const [fileURL2, setFileURL2] = useState<string | undefined>(undefined);
   const [fileURL3, setFileURL3] = useState<string | undefined>(undefined);
   const [fileURL4, setFileURL4] = useState<string | undefined>(undefined);
+
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const toggleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
+  };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -121,8 +133,16 @@ const AlternatingTemplate = (props: Template) => {
 
     // send data to action and refetch
     if (JSON.stringify(data) !== "{}") {
-      await updateWrapPage(id, data);
+      await updateWrapPage(id, { $set: data });
       setWrap(await getWrapById(id));
+      setFile1(undefined);
+      setFile2(undefined);
+      setFile3(undefined);
+      setFile4(undefined);
+      setFileURL1(undefined);
+      setFileURL2(undefined);
+      setFileURL3(undefined);
+      setFileURL4(undefined);
       setToast("Saved page!");
     }
   };
@@ -130,13 +150,38 @@ const AlternatingTemplate = (props: Template) => {
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center overflow-hidden">
       {editing && page && (
-        <EditBar
-          id={id}
-          page={page}
-          setBgColor={setBgColor}
-          setColor={setColor}
-          savePage={saveAlternatingPage}
-        />
+        <>
+          <EditBar
+            id={id}
+            page={page}
+            length={wrap.pages.length}
+            setBgColor={setBgColor}
+            setColor={setColor}
+            savePage={saveAlternatingPage}
+            toggleAddModal={toggleAddModal}
+            toggleDeleteModal={toggleDeleteModal}
+          />
+
+          {showAddModal && (
+            <AddModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleAddModal}
+            />
+          )}
+
+          {showDeleteModal && (
+            <DeleteModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleDeleteModal}
+            />
+          )}
+        </>
       )}
 
       <AnimateIn
@@ -203,7 +248,7 @@ const AlternatingTemplate = (props: Template) => {
 
                   {editing ? (
                     <textarea
-                      className={`input input-ghost resize-none overflow-auto w-full h-10 md:h-16 ${
+                      className={`input input-ghost resize-none overflow-auto w-full h-10 md:h-12 ${
                         isEven(i) ? "" : "text-right"
                       }`}
                       maxLength={150}

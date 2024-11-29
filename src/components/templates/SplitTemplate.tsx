@@ -18,6 +18,8 @@ import {
 import { Template } from "@/lib/utils/interfaces";
 import { isEven } from "@/lib/utils/isEven";
 
+import AddModal from "../AddModal";
+import DeleteModal from "../DeleteModal";
 import ImageComponent from "../ImageComponent";
 import Toast from "../Toast";
 
@@ -45,6 +47,16 @@ const SplitTemplate = (props: Template) => {
   const [file2, setFile2] = useState<File | undefined>(undefined);
   const [fileURL1, setFileURL1] = useState<string | undefined>(undefined);
   const [fileURL2, setFileURL2] = useState<string | undefined>(undefined);
+
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const toggleAddModal = () => {
+    setShowAddModal(!showAddModal);
+  };
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
+  };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -115,8 +127,12 @@ const SplitTemplate = (props: Template) => {
 
     // send data to action and refetch
     if (JSON.stringify(data) !== "{}") {
-      await updateWrapPage(id, data);
+      await updateWrapPage(id, { $set: data });
       setWrap(await getWrapById(id));
+      setFile1(undefined);
+      setFile2(undefined);
+      setFileURL1(undefined);
+      setFileURL2(undefined);
       setToast("Saved page!");
     }
   };
@@ -124,13 +140,38 @@ const SplitTemplate = (props: Template) => {
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center text-center overflow-hidden">
       {editing && page && (
-        <EditBar
-          id={id}
-          page={page}
-          setBgColor={setBgColor}
-          setColor={setColor}
-          savePage={saveSplitPage}
-        />
+        <>
+          <EditBar
+            id={id}
+            page={page}
+            length={wrap.pages.length}
+            setBgColor={setBgColor}
+            setColor={setColor}
+            savePage={saveSplitPage}
+            toggleAddModal={toggleAddModal}
+            toggleDeleteModal={toggleDeleteModal}
+          />
+
+          {showAddModal && (
+            <AddModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleAddModal}
+            />
+          )}
+
+          {showDeleteModal && (
+            <DeleteModal
+              id={id}
+              current={current}
+              setWrap={setWrap}
+              setToast={setToast}
+              toggleModal={toggleDeleteModal}
+            />
+          )}
+        </>
       )}
 
       <AnimateIn
