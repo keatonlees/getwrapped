@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { auth } from "@/lib/firebase/config";
@@ -10,14 +10,13 @@ import { auth } from "@/lib/firebase/config";
 
 export default function Home() {
   const router = useRouter();
-  const userSession = sessionStorage.getItem("user");
   const [user] = useAuthState(auth);
+  const [userSession, setUserSession] = useState("");
 
-  console.log(userSession);
-
-  // useEffect(() => {
-  //   if (!user && !userSessionID) router.push("/login");
-  // }, [user, router, userSessionID]);
+  useEffect(() => {
+    const session = sessionStorage.getItem("user");
+    if (session) setUserSession(session);
+  }, []);
 
   // const handleCreate = async () => {
   //   const wrap = await createNewWrap("New Wrap");
