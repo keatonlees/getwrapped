@@ -41,7 +41,7 @@ const EditBar = (props: EditBar) => {
   };
 
   const openPreview = () => {
-    if (id) window.open(`${baseURL}/view/${id}`, "_blank");
+    if (id) window.open(`${baseURL}/view?id=${id}`, "_blank");
   };
 
   return (

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { auth } from "@/lib/firebase/config";
+import Navbar from "@/components/Navbar";
 
 // import { createNewWrap } from "./actions";
 
@@ -18,38 +19,32 @@ export default function Home() {
     if (session) setUserSession(session);
   }, []);
 
-  // const handleCreate = async () => {
-  //   const wrap = await createNewWrap("New Wrap");
-  //   console.log(wrap.insertedId);
-  //   redirect(`/make/${wrap.insertedId}`);
-  // };
-
-  const handleLogout = () => {
-    auth.signOut();
-    sessionStorage.setItem("user", "");
+  const handleLanding = () => {
+    if (user || userSession) {
+      router.push("/wraps");
+    } else {
+      router.push("/login");
+    }
   };
 
   return (
-    <main>
-      <h1>Get Wrapped</h1>
-      <h1>{user || userSession ? user?.email : "Not signed in"}</h1>
+    <main className="w-full h-full flex flex-col items-center bg-base-100">
+      <div className=" w-[90%] md:w-[70%]">
+        {/* nav */}
+        <Navbar />
 
-      {/* <button className="btn btn-primary" onClick={handleCreate}>
-        Create New Wrapped
-      </button> */}
+        {/* landing */}
+        <div className="w-full h-[90dvh] flex items-center justify-center gap-2">
+          <button className="btn btn-outline">See Demo</button>
+          <button className="btn btn-primary" onClick={handleLanding}>
+            Try it out!
+          </button>
+        </div>
 
-      {user || userSession ? (
-        <button className="btn btn-primary" onClick={handleLogout}>
-          Logout
-        </button>
-      ) : (
-        <button
-          className="btn btn-primary"
-          onClick={() => router.push("/login")}
-        >
-          Sign In
-        </button>
-      )}
+        <div>
+          <h1>Footer</h1>
+        </div>
+      </div>
     </main>
   );
 }

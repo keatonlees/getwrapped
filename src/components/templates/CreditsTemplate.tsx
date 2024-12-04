@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { updateWrapPage } from "@/app/make/[id]/actions";
-import EditBar from "@/app/make/[id]/EditBar";
-import { getWrapById } from "@/app/view/[id]/actions";
+import { updateWrapPage } from "@/app/make/actions";
+import EditBar from "@/app/make/EditBar";
+import { getWrapById } from "@/app/view/actions";
 
 import AnimateIn from "@/lib/animations/AnimateIn";
 import { formatColorData } from "@/lib/mongo/formatData";

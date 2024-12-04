@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { updateWrapPage } from "@/app/make/[id]/actions";
-import { getWrapById } from "@/app/view/[id]/actions";
+import { updateWrapPage } from "@/app/make/actions";
+import { getWrapById } from "@/app/view/actions";
 
 import { Wrap } from "@/lib/utils/interfaces";
 
@@ -16,7 +16,7 @@ interface DeleteModal {
 const DeleteModal = (props: DeleteModal) => {
   const { id, current, setWrap, setToast, toggleModal } = props;
 
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const deletePage = async () => {
     setLoading(true);
@@ -37,11 +37,11 @@ const DeleteModal = (props: DeleteModal) => {
           <span className="loading loading-dots loading-lg"></span>
         ) : (
           <div className="flex w-full gap-4 mt-2">
-            <button className="btn btn-error flex-1" onClick={deletePage}>
-              Delete
-            </button>
             <button className="btn btn-primary flex-1" onClick={toggleModal}>
               Cancel
+            </button>
+            <button className="btn btn-error flex-1" onClick={deletePage}>
+              Delete
             </button>
           </div>
         )}

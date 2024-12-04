@@ -1,52 +1,76 @@
 "use client";
 
-import { useState } from "react";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import {
+  useAuthState,
+  useCreateUserWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 
 import { auth } from "@/lib/firebase/config";
 
 const Register = () => {
+  const router = useRouter();
+  const [user] = useAuthState(auth);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
 
+  useEffect(() => {
+    if (user) return router.push("/wraps");
+  }, [user, router]);
+
   const handleRegister = async () => {
     try {
       const res = await createUserWithEmailAndPassword(email, password);
-      if (res) sessionStorage.setItem("user", res.user.uid);
-      setEmail("");
-      setPassword("");
+
+      if (res) {
+        sessionStorage.setItem("user", res.user.uid);
+        router.push("/login");
+        setEmail("");
+        setPassword("");
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
+  const handleLogin = () => {
+    router.push("/login");
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <div className="bg-gray-800 p-10 rounded-lg shadow-xl w-96">
-        <h1 className="text-white text-2xl mb-5">Sign Up</h1>
+    <div className="flex items-center justify-center h-[100dvh] bg-base-100">
+      <div className="bg-gray-800 flex flex-col items-center p-6 gap-2 rounded-lg shadow-xl w-[90%] md:w-[25%]">
+        <h1 className="font-yeseva text-4xl mb-4">Register</h1>
+
         <input
           type="email"
           placeholder="Email"
           value={email}
+          className="input input-bordered w-full"
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 mb-4 bg-gray-700 rounded outline-none text-white placeholder-gray-500"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
+          className="input input-bordered w-full"
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-4 bg-gray-700 rounded outline-none text-white placeholder-gray-500"
         />
-        <button
-          onClick={handleRegister}
-          className="w-full p-3 bg-indigo-600 rounded text-white hover:bg-indigo-500"
-        >
-          Sign Up
+        <button onClick={handleRegister} className="btn btn-primary w-full">
+          Create Account
         </button>
+
+        <div className="flex justify-center gap-1 mt-4">
+          Already have an account?
+          <button onClick={handleLogin} className="underline">
+            Login
+          </button>
+        </div>
       </div>
     </div>
   );
