@@ -5,9 +5,9 @@ import {
   deleteImageById,
   getUploadedImageURL,
   updateWrapPage,
-} from "@/app/make/[id]/actions";
-import EditBar from "@/app/make/[id]/EditBar";
-import { getWrapById } from "@/app/view/[id]/actions";
+} from "@/app/make/actions";
+import EditBar from "@/app/make/EditBar";
+import { getWrapById } from "@/app/view/actions";
 
 import AnimateIn from "@/lib/animations/AnimateIn";
 import { formatColorData, formatImageArrayData } from "@/lib/mongo/formatData";

@@ -1,38 +1,35 @@
 import React, { useState } from "react";
 
-import { updateWrapPage } from "@/app/make/actions";
-import { getWrapById } from "@/app/view/actions";
+import { deleteWrapById } from "@/app/actions";
 
 import { Wrap } from "@/lib/utils/interfaces";
 
-interface DeleteModal {
+interface DeleteWrapModal {
   id: string;
-  current: number;
-  setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
-  setToast: React.Dispatch<React.SetStateAction<string>>;
+  wraps: Wrap[];
+  setWraps: React.Dispatch<React.SetStateAction<Wrap[]>>;
   toggleModal: () => void;
 }
 
-const DeleteModal = (props: DeleteModal) => {
-  const { id, current, setWrap, setToast, toggleModal } = props;
+const DeleteWrapModal = (props: DeleteWrapModal) => {
+  const { id, wraps, setWraps, toggleModal } = props;
 
   const [loading, setLoading] = useState(false);
 
-  const deletePage = async () => {
+  const deleteWrap = async () => {
     setLoading(true);
 
-    await updateWrapPage(id, { $unset: { [`pages.${current}`]: null } });
-    await updateWrapPage(id, { $pull: { pages: null } });
-    setWrap(await getWrapById(id));
-    setToast("Deleted page!");
+    await deleteWrapById(id);
+    const filteredWraps = wraps.filter((wrap) => wrap._id.toString() !== id);
+    setWraps(filteredWraps);
     toggleModal();
     setLoading(false);
   };
 
   return (
-    <div className="absolute w-full h-full flex items-center justify-center">
+    <div className="absolute w-full h-full flex items-center justify-center top-0 left-0">
       <div className="bg-neutral text-white p-4 rounded-lg z-20 w-[80%] md:w-[30%] flex flex-col items-center">
-        <h1>Delete Current Page?</h1>
+        <h1>Delete Wrap?</h1>
         {loading ? (
           <span className="loading loading-dots loading-lg"></span>
         ) : (
@@ -40,7 +37,7 @@ const DeleteModal = (props: DeleteModal) => {
             <button className="btn btn-primary flex-1" onClick={toggleModal}>
               Cancel
             </button>
-            <button className="btn btn-error flex-1" onClick={deletePage}>
+            <button className="btn btn-error flex-1" onClick={deleteWrap}>
               Delete
             </button>
           </div>
@@ -55,4 +52,4 @@ const DeleteModal = (props: DeleteModal) => {
   );
 };
 
-export default DeleteModal;
+export default DeleteWrapModal;

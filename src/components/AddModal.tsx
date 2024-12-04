@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
-import { updateWrapPage } from "@/app/make/[id]/actions";
-import { getWrapById } from "@/app/view/[id]/actions";
+import { updateWrapPage } from "@/app/make/actions";
+import { getWrapById } from "@/app/view/actions";
 
 import { Wrap } from "@/lib/utils/interfaces";
 
@@ -81,16 +81,16 @@ export default AddModal;
 
 const singlePage = {
   type: "single",
-  bgColor: "#c8a4f4",
-  color: "#668cff",
-  title: "Title here",
-  content: "Subtitle here",
+  bgColor: "#121c22",
+  color: "#9fb9d0",
+  title: "This is a title",
+  content: "This is content",
   imageURL: "",
 };
 const splitPage = {
   type: "split",
-  bgColor: "#c8a4f4",
-  color: "#668cff",
+  bgColor: "#121c22",
+  color: "#9fb9d0",
   title: "Split Page",
   items: [
     {
@@ -107,8 +107,8 @@ const splitPage = {
 };
 const alternatingPage = {
   type: "alternating",
-  bgColor: "#c8a4f4",
-  color: "#668cff",
+  bgColor: "#121c22",
+  color: "#9fb9d0",
   title: "Alternating Page",
   items: [
     {

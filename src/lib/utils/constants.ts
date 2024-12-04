@@ -6,19 +6,33 @@ export const baseURL = (
     : "http://localhost:3000"
 ) as string;
 
-// TODO: update this
-// const defaultBGColor: string = "#FAF9F6";
-// const defaultColor: string = "#202020";
+const bgColor = "#121c22";
+const color = "#9fb9d0";
+
 export const newWrap = {
-  //   title: "New Wrap",
-  //   pages: [
-  //     {
-  //       type: "title",
-  //       bgColor: defaultBGColor,
-  //       color: defaultColor,
-  //       content: "Made by Name",
-  //     },
-  //     { type: "default", bgColor: defaultBGColor, color: defaultColor },
-  //     { type: "credits", bgColor: defaultBGColor, color: defaultColor },
-  //   ],
+  title: "New Wrap",
+  user: "",
+  pages: [
+    {
+      type: "title",
+      bgColor: bgColor,
+      color: color,
+      content: "This is content",
+    },
+    {
+      type: "single",
+      bgColor: bgColor,
+      color: color,
+      title: "This is a title",
+      content: "This is content",
+      imageURL: "",
+    },
+    {
+      type: "credits",
+      bgColor: bgColor,
+      color: color,
+      title: "This is a title",
+      content: "This is content",
+    },
+  ],
 };

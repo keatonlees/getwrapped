@@ -4,6 +4,7 @@ export interface Wrap {
   _id: ObjectId;
   title: string;
   pages: Page[];
+  user: string;
 }
 
 export interface Page {
