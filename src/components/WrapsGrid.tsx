@@ -1,13 +1,16 @@
 "use client";
 
-import { createNewWrap } from "@/app/actions";
-import { auth } from "@/lib/firebase/config";
-import { baseURL } from "@/lib/utils/constants";
-import { Wrap } from "@/lib/utils/interfaces";
-import { redirect, RedirectType, useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { TbTrashXFilled } from "react-icons/tb";
+
+import { createNewWrap } from "@/app/actions";
+
+import { auth } from "@/lib/firebase/config";
+import { baseURL } from "@/lib/utils/constants";
+import { Wrap } from "@/lib/utils/interfaces";
+
 import DeleteWrapModal from "./DeleteWrapModal";
 
 const WrapsGrid = () => {
@@ -27,7 +30,7 @@ const WrapsGrid = () => {
     };
 
     if (user) fetchWraps(user.uid);
-  }, []);
+  }, [user]);
 
   const handleEdit = (id: string) => {
     router.push(`/make?id=${id}`);

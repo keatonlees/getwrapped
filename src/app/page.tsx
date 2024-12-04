@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import { auth } from "@/lib/firebase/config";
 import Navbar from "@/components/Navbar";
+import { auth } from "@/lib/firebase/config";
 
 // import { createNewWrap } from "./actions";
 

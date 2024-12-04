@@ -1,10 +1,10 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { auth } from "@/lib/firebase/config";
-import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const router = useRouter();

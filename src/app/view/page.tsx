@@ -1,14 +1,14 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+import LoadingWrap from "@/components/LoadingWrap";
 import ViewContainer from "@/components/ViewContainer";
 import WrapNotFound from "@/components/WrapNotFound";
+import { Wrap } from "@/lib/utils/interfaces";
 
 import { getWrapById } from "./actions";
-import { useSearchParams } from "next/navigation";
-import { Wrap } from "@/lib/utils/interfaces";
-import LoadingWrap from "@/components/LoadingWrap";
 
 const ViewWrap = () => {
   const params = useSearchParams();
@@ -25,7 +25,7 @@ const ViewWrap = () => {
     };
 
     if (id) getWrap();
-  }, []);
+  }, [id]);
 
   if (loading && (!wrap || JSON.stringify(wrap) === "{}"))
     return <LoadingWrap />;

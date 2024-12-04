@@ -1,12 +1,12 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/lib/firebase/config";
 
+import Navbar from "@/components/Navbar";
 import WrapsGrid from "@/components/WrapsGrid";
+import { auth } from "@/lib/firebase/config";
 
 const Wraps = () => {
   const router = useRouter();

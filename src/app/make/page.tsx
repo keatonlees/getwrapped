@@ -1,15 +1,16 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
+import LoadingWrap from "@/components/LoadingWrap";
 import ViewContainer from "@/components/ViewContainer";
 import WrapNotFound from "@/components/WrapNotFound";
-import { useRouter, useSearchParams } from "next/navigation";
-import { getWrapById } from "../view/actions";
-import { Wrap } from "@/lib/utils/interfaces";
-import LoadingWrap from "@/components/LoadingWrap";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/lib/firebase/config";
+import { Wrap } from "@/lib/utils/interfaces";
+
+import { getWrapById } from "../view/actions";
 
 const MakeWrap = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ const MakeWrap = () => {
     if (!user) router.push("/login");
     if (id) getWrap();
     if (user && wrap && user.uid !== wrap.user) router.push("/login");
-  }, []);
+  }, [id, router, user, wrap]);
 
   if (loading && (!wrap || JSON.stringify(wrap) === "{}"))
     return <LoadingWrap />;

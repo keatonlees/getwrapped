@@ -1,6 +1,8 @@
-import { deleteWrapById } from "@/app/actions";
-import { Wrap } from "@/lib/utils/interfaces";
 import React, { useState } from "react";
+
+import { deleteWrapById } from "@/app/actions";
+
+import { Wrap } from "@/lib/utils/interfaces";
 
 interface DeleteWrapModal {
   id: string;
