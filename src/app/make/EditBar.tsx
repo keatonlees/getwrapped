@@ -9,6 +9,7 @@ interface EditBar {
   id: string;
   page: Page;
   length: number;
+  saveLoading: boolean;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
   setColor: React.Dispatch<React.SetStateAction<string>>;
   savePage: () => void;
@@ -21,6 +22,7 @@ const EditBar = (props: EditBar) => {
     id,
     page,
     length,
+    saveLoading,
     setBgColor,
     setColor,
     savePage,
@@ -44,10 +46,16 @@ const EditBar = (props: EditBar) => {
     if (id) window.open(`${baseURL}/view?id=${id}`, "_blank");
   };
 
+  if (!page) return;
+
   return (
     <div className="flex h-12 items-center justify-center absolute top-4 gap-2">
       <button onClick={savePage} className="btn btn-primary btn-md">
-        <FaSave className="text-lg" />
+        {saveLoading ? (
+          <span className="loading loading-spinner loading-sm"></span>
+        ) : (
+          <FaSave className="text-lg" />
+        )}
         <span className="hidden md:block">Save Page</span>
       </button>
 

@@ -8,13 +8,14 @@ import { Wrap } from "@/lib/utils/interfaces";
 interface DeleteModal {
   id: string;
   current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
   setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
   setToast: React.Dispatch<React.SetStateAction<string>>;
   toggleModal: () => void;
 }
 
 const DeleteModal = (props: DeleteModal) => {
-  const { id, current, setWrap, setToast, toggleModal } = props;
+  const { id, current, setCurrent, setWrap, setToast, toggleModal } = props;
 
   const [loading, setLoading] = useState(false);
 
@@ -24,8 +25,9 @@ const DeleteModal = (props: DeleteModal) => {
     await updateWrapPage(id, { $unset: { [`pages.${current}`]: null } });
     await updateWrapPage(id, { $pull: { pages: null } });
     setWrap(await getWrapById(id));
-    setToast("Deleted page!");
     toggleModal();
+    setCurrent(current - 1);
+    setToast("Deleted page!");
     setLoading(false);
   };
 

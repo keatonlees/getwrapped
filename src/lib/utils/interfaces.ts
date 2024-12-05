@@ -26,9 +26,11 @@ export interface Template {
   wrap: Wrap;
   current: number;
   editing: boolean;
-  bgColor: string;
-  color: string;
-  setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
-  setBgColor: React.Dispatch<React.SetStateAction<string>>;
-  setColor: React.Dispatch<React.SetStateAction<string>>;
+  pageData: object;
+  setPageData: React.Dispatch<React.SetStateAction<object>>;
+  // bgColor: string;
+  // color: string;
+  // setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
+  // setBgColor: React.Dispatch<React.SetStateAction<string>>;
+  // setColor: React.Dispatch<React.SetStateAction<string>>;
 }

@@ -27,7 +27,7 @@ const DeleteWrapModal = (props: DeleteWrapModal) => {
   };
 
   return (
-    <div className="absolute w-full h-full flex items-center justify-center top-0 left-0">
+    <div className="fixed w-full h-full flex items-center justify-center top-0 left-0 overflow-hidden">
       <div className="bg-neutral text-white p-4 rounded-lg z-20 w-[80%] md:w-[30%] flex flex-col items-center">
         <h1>Delete Wrap?</h1>
         {loading ? (

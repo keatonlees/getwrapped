@@ -35,6 +35,9 @@ const ImageComponent = (props: ImageComponent) => {
     setFileURL(undefined);
   };
 
+  // TODO: remove Image usage
+  // TODO: blur image loading
+
   return (
     <div className="w-full h-full flex items-center justify-center outline rounded-lg drop-shadow-lg overflow-hidden ">
       <form>

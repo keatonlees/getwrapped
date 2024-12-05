@@ -11,23 +11,26 @@ interface Pagination {
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
   wrap: Wrap;
+  setPageData: React.Dispatch<React.SetStateAction<object>>;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
   setColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Pagination = (props: Pagination) => {
-  const { wrap, current, setCurrent, setBgColor, setColor } = props;
+  const { wrap, current, setCurrent, setPageData, setBgColor, setColor } =
+    props;
 
   const length = wrap.pages.length;
 
-  const resetColors = () => {
+  const reset = () => {
     setBgColor("");
     setColor("");
+    setPageData({});
   };
 
   const prev = async () => {
     if (current - 1 >= 0) {
-      resetColors();
+      reset();
       setCurrent(-1);
       await new Promise((r) => setTimeout(r, 1));
       setCurrent(current - 1);
@@ -38,7 +41,7 @@ const Pagination = (props: Pagination) => {
 
   const next = async () => {
     if (current + 1 <= length - 1) {
-      resetColors();
+      reset();
       setCurrent(-1);
       await new Promise((r) => setTimeout(r, 1));
       setCurrent(current + 1);
@@ -48,7 +51,7 @@ const Pagination = (props: Pagination) => {
   };
 
   const goTo = async (i: number) => {
-    resetColors();
+    reset();
     setCurrent(-1);
     await new Promise((r) => setTimeout(r, 1));
     setCurrent(i);

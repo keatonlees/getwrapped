@@ -9,13 +9,14 @@ import { Wrap } from "@/lib/utils/interfaces";
 interface AddModal {
   id: string;
   current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
   setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
   setToast: React.Dispatch<React.SetStateAction<string>>;
   toggleModal: () => void;
 }
 
 const AddModal = (props: AddModal) => {
-  const { id, current, setWrap, setToast, toggleModal } = props;
+  const { id, current, setCurrent, setWrap, setToast, toggleModal } = props;
 
   const [loading, setLoading] = React.useState(false);
   const newPages = [singlePage, splitPage, alternatingPage];
@@ -28,6 +29,7 @@ const AddModal = (props: AddModal) => {
     });
     setWrap(await getWrapById(id));
     toggleModal();
+    setCurrent(current + 1);
     setToast("Added page!");
     setLoading(false);
   };
