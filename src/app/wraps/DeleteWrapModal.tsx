@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { deleteWrapById } from "@/app/actions";
+import { deleteImageById } from "@/app/make/actions";
 
 import { Wrap } from "@/lib/utils/interfaces";
 
@@ -18,6 +19,21 @@ const DeleteWrapModal = (props: DeleteWrapModal) => {
 
   const deleteWrap = async () => {
     setLoading(true);
+
+    // delete all images from AWS S3
+    const wrap = wraps.find((wrap) => wrap._id.toString() === id);
+    if (wrap) {
+      wrap.pages.forEach((page) => {
+        if (page.items) {
+          page.items.forEach((item) => {
+            if (item.imageURL) {
+              const oldImageId = item.imageURL.split("/")[3] ?? "";
+              if (oldImageId) deleteImageById(oldImageId);
+            }
+          });
+        }
+      });
+    }
 
     await deleteWrapById(id);
     const filteredWraps = wraps.filter((wrap) => wrap._id.toString() !== id);

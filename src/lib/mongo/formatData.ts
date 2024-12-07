@@ -6,7 +6,7 @@ interface FormatColorData {
   bgColor: string;
   color: string;
 }
-interface FormatTextData {
+export interface FormatTextData {
   current: number;
   pageData: {
     title?: string;
@@ -16,13 +16,8 @@ interface FormatTextData {
     }[];
   };
 }
+
 interface FormatImageData {
-  page: Page;
-  current: number;
-  imageURL: string | undefined;
-}
-interface FormatImageArrayData {
-  page: Page;
   current: number;
   fileURLs: (string | undefined)[];
 }
@@ -68,38 +63,19 @@ export const formatTextData = (props: FormatTextData) => {
 };
 
 export const formatImageData = (props: FormatImageData) => {
-  const { page, current, imageURL } = props;
-
-  if (!imageURL) return {};
-
-  let data = {};
-  if (page.imageURL !== imageURL && imageURL !== "")
-    data = {
-      ...data,
-      [`pages.${current}.imageURL`]: imageURL,
-    };
-
-  return data;
-};
-
-export const formatImageArrayData = (props: FormatImageArrayData) => {
-  const { page, current, fileURLs } = props;
+  const { current, fileURLs } = props;
 
   if (fileURLs.length === 0) return {};
 
   let data = {};
-  for (let i = 0; i < fileURLs.length; i++) {
-    if (
-      page.items &&
-      fileURLs[i] !== "" &&
-      page.items[i].imageURL !== fileURLs[i]
-    ) {
+  fileURLs.forEach((url, i) => {
+    if (url !== "" && url !== "error") {
       data = {
         ...data,
         [`pages.${current}.items.${i}.imageURL`]: fileURLs[i],
       };
     }
-  }
+  });
 
   return data;
 };

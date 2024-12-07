@@ -6,33 +6,50 @@ export const baseURL = (
     : "http://localhost:3000"
 ) as string;
 
-const bgColor = "#121c22";
-const color = "#9fb9d0";
+const bgColor = "#ffd2c1";
+const color = "#6d89b0";
 
+const item = {
+  title: "This is a title",
+  content: "This is content",
+  imageURL: "",
+};
+const titlePage = {
+  type: "title",
+  bgColor: bgColor,
+  color: color,
+  title: "New Wrap!",
+  content: "This is content",
+};
+const creditsPage = {
+  type: "credits",
+  bgColor: bgColor,
+  color: color,
+  title: "Thank you!",
+  content: "This is content",
+};
+
+export const singlePage = {
+  type: "single",
+  bgColor: bgColor,
+  color: color,
+  items: [item],
+};
+export const splitPage = {
+  type: "split",
+  bgColor: bgColor,
+  color: color,
+  title: "Split Page",
+  items: [item, item],
+};
+export const alternatingPage = {
+  type: "alternating",
+  bgColor: bgColor,
+  color: color,
+  title: "Alternating Page",
+  items: [item, item, item, item],
+};
 export const newWrap = {
-  title: "New Wrap",
   user: "",
-  pages: [
-    {
-      type: "title",
-      bgColor: bgColor,
-      color: color,
-      content: "This is content",
-    },
-    {
-      type: "single",
-      bgColor: bgColor,
-      color: color,
-      title: "This is a title",
-      content: "This is content",
-      imageURL: "",
-    },
-    {
-      type: "credits",
-      bgColor: bgColor,
-      color: color,
-      title: "This is a title",
-      content: "This is content",
-    },
-  ],
+  pages: [titlePage, singlePage, creditsPage],
 };

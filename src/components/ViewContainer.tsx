@@ -3,10 +3,18 @@
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
 
-import { updateWrapPage } from "@/app/make/actions";
+import {
+  deleteImageById,
+  getUploadedImageURL,
+  updateWrapPage,
+} from "@/app/make/actions";
 import EditBar from "@/app/make/EditBar";
 
-import { formatTextData, formatColorData } from "@/lib/mongo/formatData";
+import {
+  formatTextData,
+  formatColorData,
+  formatImageData,
+} from "@/lib/mongo/formatData";
 import { Wrap } from "@/lib/utils/interfaces";
 
 import AddModal from "./AddModal";
@@ -31,6 +39,7 @@ const ViewContainer = (props: ViewContainer) => {
   const [toast, setToast] = useState("");
 
   const [pageData, setPageData] = useState({});
+  const [pageImageData, setPageImageData] = useState<(File | undefined)[]>([]);
   const [saveLoading, setSaveLoading] = useState(false);
 
   const [showAddModal, setShowAddModal] = useState(false);
@@ -55,6 +64,30 @@ const ViewContainer = (props: ViewContainer) => {
 
   const savePage = async () => {
     setSaveLoading(true);
+
+    let newImageURLs: (string | undefined)[] = [];
+    if (!_.isEmpty(pageImageData)) {
+      // upload images to AWS S3
+      const promises = pageImageData.map((image) => {
+        if (image) {
+          return getUploadedImageURL(image);
+        } else {
+          return "";
+        }
+      });
+      newImageURLs = await Promise.all(promises);
+
+      // delete old images from AWS S3
+      newImageURLs.forEach((url, i) => {
+        if (url !== "" && url !== "error" && wrap.pages[current].items) {
+          const oldImageId =
+            wrap.pages[current].items[i].imageURL?.split("/")[3] ?? "";
+          if (oldImageId) deleteImageById(oldImageId);
+        }
+      });
+    }
+
+    // format data for MongoDB
     const colorData = formatColorData({
       page: wrap.pages[current],
       current,
@@ -65,7 +98,11 @@ const ViewContainer = (props: ViewContainer) => {
       current,
       pageData,
     });
-    const data = { ...colorData, ...textData };
+    const imageData = formatImageData({
+      current,
+      fileURLs: newImageURLs,
+    });
+    const data = { ...colorData, ...textData, ...imageData };
 
     if (!_.isEmpty(data)) {
       updateWrapPage(wrap._id.toString(), {
@@ -78,10 +115,17 @@ const ViewContainer = (props: ViewContainer) => {
         ...updatedWrap.pages[current],
         ...pageData,
       };
+      newImageURLs.forEach((url, i) => {
+        if (url !== "" && url !== "error" && updatedWrap.pages[current].items) {
+          updatedWrap.pages[current].items[i].imageURL = url;
+        }
+      });
       if (bgColor) updatedWrap.pages[current].bgColor = bgColor;
       if (color) updatedWrap.pages[current].color = color;
+
       setWrap(updatedWrap);
       setPageData({});
+      setPageImageData([]);
     }
 
     setToast("Saved Page!");
@@ -121,6 +165,7 @@ const ViewContainer = (props: ViewContainer) => {
           {showDeleteModal && (
             <DeleteModal
               id={wrap._id.toString()}
+              page={wrap.pages[current]}
               current={current}
               setCurrent={setCurrent}
               setWrap={setWrap}
@@ -136,7 +181,9 @@ const ViewContainer = (props: ViewContainer) => {
         wrap={wrap}
         current={current}
         pageData={pageData}
+        pageImageData={pageImageData}
         setPageData={setPageData}
+        setPageImageData={setPageImageData}
       />
 
       <Pagination

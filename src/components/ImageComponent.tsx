@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { TbUpload, TbTrashXFilled } from "react-icons/tb";
 
@@ -6,86 +6,96 @@ import placeholder from "../../public/placeholder.svg";
 
 interface ImageComponent {
   src: string | undefined;
+  i: number;
   editing: boolean;
-  file: File | undefined;
-  fileURL: string | undefined;
-  setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
-  setFileURL: React.Dispatch<React.SetStateAction<string | undefined>>;
+  files: (File | undefined)[];
+  fileURLs: (string | undefined)[];
+  pageImageData: (File | undefined)[];
+  setFiles: React.Dispatch<React.SetStateAction<(File | undefined)[]>>;
+  setFileURLs: React.Dispatch<React.SetStateAction<(string | undefined)[]>>;
+  setPageImageData: React.Dispatch<React.SetStateAction<(File | undefined)[]>>;
 }
 
 const ImageComponent = (props: ImageComponent) => {
-  const { src, editing, file, fileURL, setFile, setFileURL } = props;
+  const {
+    src,
+    i,
+    editing,
+    files,
+    fileURLs,
+    pageImageData,
+    setFiles,
+    setFileURLs,
+    setPageImageData,
+  } = props;
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setFile(file);
 
-    if (fileURL) URL.revokeObjectURL(fileURL);
+    // resize file? handle multiple files on page
 
+    const newFiles = [...files];
+    const newFileURLs = [...fileURLs];
+
+    newFiles[i] = file;
+    setFiles(newFiles);
+    setPageImageData(newFiles);
+
+    if (fileURLs[i]) URL.revokeObjectURL(fileURLs[i]);
     if (file) {
       const url = URL.createObjectURL(file);
-      setFileURL(url);
+      newFileURLs[i] = url;
+      setFileURLs(newFileURLs);
     } else {
-      setFileURL(undefined);
+      newFileURLs[i] = undefined;
+      setFileURLs(newFileURLs);
     }
   };
 
   const handleDiscard = () => {
-    setFile(undefined);
-    setFileURL(undefined);
+    const newFiles = [...files];
+    newFiles[i] = undefined;
+    setFiles(newFiles);
+
+    const newFileURLs = [...fileURLs];
+    newFileURLs[i] = undefined;
+    setFileURLs(newFileURLs);
   };
 
-  // TODO: remove Image usage
-  // TODO: blur image loading
+  // TODO: compress images / limit upload size?
 
   return (
     <div className="w-full h-full flex items-center justify-center outline rounded-lg drop-shadow-lg overflow-hidden ">
-      <form>
-        {/* Preview */}
-        <div className="w-full h-full flex">
-          {fileURL && file ? (
-            <Image
-              src={fileURL}
-              alt="file"
-              fill={true}
-              className="object-cover"
-            />
-          ) : (
-            <Image
-              src={src || placeholder}
-              alt="placeholder"
-              fill={true}
-              className="object-cover"
-            />
-          )}
-        </div>
+      {/* Preview */}
+      <img
+        src={fileURLs[i] || src || placeholder.src}
+        alt="file"
+        className="aspect-video object-cover"
+      />
 
-        {/* Upload */}
-        {editing && (
-          <label className="btn btn-primary btn-sm absolute bottom-2 left-2">
-            <TbUpload className="text-xl" />
-            {/* Upload */}
-            <input
-              type="file"
-              className="hidden"
-              name="media"
-              accept="image/jpeg, image/png, image/webp"
-              onChange={handleUpload}
-            />
-          </label>
-        )}
+      {/* Upload Button */}
+      {editing && (
+        <label className="btn btn-primary btn-sm absolute bottom-2 left-2">
+          <TbUpload className="text-xl" />
+          <input
+            type="file"
+            className="hidden"
+            name="media"
+            accept="image/jpeg, image/png, image/webp"
+            onChange={handleUpload}
+          />
+        </label>
+      )}
 
-        {/* Discard */}
-        {fileURL && file && (
-          <button
-            className="btn-error btn-sm absolute bottom-2 right-2 btn"
-            onClick={handleDiscard}
-          >
-            <TbTrashXFilled className="text-xl" />
-            {/* Discard */}
-          </button>
-        )}
-      </form>
+      {/* Discard Button */}
+      {fileURLs[i] && files[i] && pageImageData[i] && (
+        <button
+          className="btn-error btn-sm absolute bottom-2 right-2 btn"
+          onClick={handleDiscard}
+        >
+          <TbTrashXFilled className="text-xl" />
+        </button>
+      )}
     </div>
   );
 };

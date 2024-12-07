@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
+import WrapsGrid from "@/app/wraps/WrapsGrid";
+
 import Navbar from "@/components/Navbar";
-import WrapsGrid from "@/components/WrapsGrid";
 import { auth } from "@/lib/firebase/config";
 
 const Wraps = () => {

@@ -12,7 +12,15 @@ import SplitTemplate from "./templates/SplitTemplate";
 import TitleTemplate from "./templates/TitleTemplate";
 
 const RenderSwitch = (props: Template) => {
-  const { editing, wrap, current, pageData, setPageData } = props;
+  const {
+    editing,
+    wrap,
+    current,
+    pageData,
+    pageImageData,
+    setPageData,
+    setPageImageData,
+  } = props;
 
   if (!wrap.pages[current]) return;
 
@@ -21,7 +29,9 @@ const RenderSwitch = (props: Template) => {
     wrap: wrap,
     current: current,
     pageData: pageData,
+    pageImageData: pageImageData,
     setPageData: setPageData,
+    setPageImageData: setPageImageData,
   };
 
   switch (wrap.pages[current].type) {

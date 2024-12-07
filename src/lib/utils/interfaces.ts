@@ -27,7 +27,9 @@ export interface Template {
   current: number;
   editing: boolean;
   pageData: object;
+  pageImageData: (File | undefined)[];
   setPageData: React.Dispatch<React.SetStateAction<object>>;
+  setPageImageData: React.Dispatch<React.SetStateAction<(File | undefined)[]>>;
   // bgColor: string;
   // color: string;
   // setWrap: React.Dispatch<React.SetStateAction<Wrap>>;

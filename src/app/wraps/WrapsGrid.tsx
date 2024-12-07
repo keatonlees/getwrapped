@@ -78,7 +78,7 @@ const WrapsGrid = () => {
                 className="font-yeseva text-2xl font-bold text-center"
                 style={{ color: wrap.pages[0].color ?? "#9fb9d0" }}
               >
-                {wrap.title}
+                {wrap.pages[0].title}
               </h1>
             </div>
 

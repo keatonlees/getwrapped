@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 
 import AnimateIn from "@/lib/animations/AnimateIn";
@@ -8,18 +7,29 @@ import { isEven } from "@/lib/utils/isEven";
 import ImageComponent from "../ImageComponent";
 
 const SplitTemplate = (props: Template) => {
-  const { editing, wrap, current, pageData, setPageData } = props;
+  const {
+    editing,
+    wrap,
+    current,
+    pageData,
+    pageImageData,
+    setPageData,
+    setPageImageData,
+  } = props;
 
-  // const id = wrap._id.toString();
   const page = wrap.pages[current];
 
   const [title, setTitle] = useState(page.title || "");
   const [items, setItems] = useState(page.items || []);
 
-  const [file1, setFile1] = useState<File | undefined>(undefined);
-  const [file2, setFile2] = useState<File | undefined>(undefined);
-  const [fileURL1, setFileURL1] = useState<string | undefined>(undefined);
-  const [fileURL2, setFileURL2] = useState<string | undefined>(undefined);
+  const [files, setFiles] = useState<(File | undefined)[]>([
+    undefined,
+    undefined,
+  ]);
+  const [fileURLs, setFileURLs] = useState<(string | undefined)[]>([
+    undefined,
+    undefined,
+  ]);
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -45,65 +55,6 @@ const SplitTemplate = (props: Template) => {
     setItems(newItems);
     setPageData({ ...pageData, items: newItems });
   };
-
-  // const saveSplitPage = async () => {
-  //   const fileURLs = [];
-  //   if (file1) {
-  //     const imageURL1 = await getUploadedImageURL(file1);
-  //     if (imageURL1 === "error") {
-  //       setToast("Error uploading image!");
-  //       return;
-  //     } else fileURLs.push(imageURL1);
-  //   } else fileURLs.push("");
-  //   if (file2) {
-  //     const imageURL2 = await getUploadedImageURL(file2);
-  //     if (imageURL2 === "error") {
-  //       setToast("Error uploading image!");
-  //       return;
-  //     } else fileURLs.push(imageURL2);
-  //   } else fileURLs.push("");
-
-  //   const colorData = formatColorData({ page, current, bgColor, color });
-  //   const textData = formatTextArrayData({
-  //     page,
-  //     current,
-  //     title,
-  //     itemTitles,
-  //     itemContents,
-  //   });
-  //   const imageData = formatImageArrayData({
-  //     page,
-  //     current,
-  //     fileURLs,
-  //   });
-
-  //   const data = {
-  //     ...colorData,
-  //     ...textData,
-  //     ...imageData,
-  //   };
-
-  //   // clear old images from S3
-  //   if (JSON.stringify(imageData) !== "{}") {
-  //     let originalImageId = "";
-  //     for (let i = 0; i < fileURLs.length; i++) {
-  //       if (page.items && fileURLs[i] !== "")
-  //         originalImageId = page.items[i].imageURL?.split("/")[3] ?? "";
-  //       if (originalImageId !== "") await deleteImageById(originalImageId);
-  //     }
-  //   }
-
-  //   // send data to action and refetch
-  //   if (JSON.stringify(data) !== "{}") {
-  //     await updateWrapPage(id, { $set: data });
-  //     setWrap(await getWrapById(id));
-  //     setFile1(undefined);
-  //     setFile2(undefined);
-  //     setFileURL1(undefined);
-  //     setFileURL2(undefined);
-  //     setToast("Saved page!");
-  //   }
-  // };
 
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center text-center overflow-hidden">
@@ -136,15 +87,18 @@ const SplitTemplate = (props: Template) => {
                 delay={250 * (i + 2)}
                 className="flex flex-col items-center justify-center gap-2"
               >
-                <div className="aspect-video w-[65dvw] sm:w-[60dvw] md:w-[32dvw]">
-                  {/* <ImageComponent
+                <div className="w-[65dvw] sm:w-[60dvw] md:w-[32dvw]">
+                  <ImageComponent
                     src={item.imageURL}
+                    i={i}
                     editing={editing}
-                    file={eval(`file${i + 1}`)}
-                    fileURL={eval(`fileURL${i + 1}`)}
-                    setFile={eval(`setFile${i + 1}`)}
-                    setFileURL={eval(`setFileURL${i + 1}`)}
-                  /> */}
+                    files={files}
+                    fileURLs={fileURLs}
+                    pageImageData={pageImageData}
+                    setFiles={setFiles}
+                    setFileURLs={setFileURLs}
+                    setPageImageData={setPageImageData}
+                  />
                 </div>
 
                 {editing ? (
