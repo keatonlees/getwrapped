@@ -32,7 +32,8 @@ const MakeWrap = () => {
     if (!user) router.push("/login");
     if (id) getWrap();
     if (user && wrap && user.uid !== wrap.user) router.push("/login");
-  }, [id, router, user, wrap]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, user, router]);
 
   if (loading && (!wrap || JSON.stringify(wrap) === "{}"))
     return <LoadingWrap />;

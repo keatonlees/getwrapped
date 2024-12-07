@@ -16,11 +16,10 @@ const RenderSwitch = (props: Template) => {
     editing,
     wrap,
     current,
-    bgColor,
-    color,
-    setWrap,
-    setBgColor,
-    setColor,
+    pageData,
+    pageImageData,
+    setPageData,
+    setPageImageData,
   } = props;
 
   if (!wrap.pages[current]) return;
@@ -29,11 +28,10 @@ const RenderSwitch = (props: Template) => {
     editing: editing,
     wrap: wrap,
     current: current,
-    bgColor: bgColor,
-    color: color,
-    setWrap: setWrap,
-    setBgColor: setBgColor,
-    setColor: setColor,
+    pageData: pageData,
+    pageImageData: pageImageData,
+    setPageData: setPageData,
+    setPageImageData: setPageImageData,
   };
 
   switch (wrap.pages[current].type) {

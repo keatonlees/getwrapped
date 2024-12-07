@@ -1,179 +1,63 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 
-import {
-  deleteImageById,
-  getUploadedImageURL,
-  updateWrapPage,
-} from "@/app/make/actions";
-import EditBar from "@/app/make/EditBar";
-import { getWrapById } from "@/app/view/actions";
-
 import AnimateIn from "@/lib/animations/AnimateIn";
-import {
-  formatColorData,
-  formatImageArrayData,
-  formatTextArrayData,
-} from "@/lib/mongo/formatData";
 import { Template } from "@/lib/utils/interfaces";
 import { isEven } from "@/lib/utils/isEven";
 
-import AddModal from "../AddModal";
-import DeleteModal from "../DeleteModal";
 import ImageComponent from "../ImageComponent";
-import Toast from "../Toast";
 
 const SplitTemplate = (props: Template) => {
   const {
     editing,
     wrap,
     current,
-    bgColor,
-    color,
-    setWrap,
-    setBgColor,
-    setColor,
+    pageData,
+    pageImageData,
+    setPageData,
+    setPageImageData,
   } = props;
 
-  const id = wrap._id.toString();
   const page = wrap.pages[current];
 
-  const [toast, setToast] = useState("");
   const [title, setTitle] = useState(page.title || "");
-  const [itemTitles, setItemTitles] = useState<string[]>([]);
-  const [itemContents, setItemContents] = useState<string[]>([]);
+  const [items, setItems] = useState(page.items || []);
 
-  const [file1, setFile1] = useState<File | undefined>(undefined);
-  const [file2, setFile2] = useState<File | undefined>(undefined);
-  const [fileURL1, setFileURL1] = useState<string | undefined>(undefined);
-  const [fileURL2, setFileURL2] = useState<string | undefined>(undefined);
-
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const toggleAddModal = () => {
-    setShowAddModal(!showAddModal);
-  };
-  const toggleDeleteModal = () => {
-    setShowDeleteModal(!showDeleteModal);
-  };
+  const [files, setFiles] = useState<(File | undefined)[]>([
+    undefined,
+    undefined,
+  ]);
+  const [fileURLs, setFileURLs] = useState<(string | undefined)[]>([
+    undefined,
+    undefined,
+  ]);
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+    setPageData({ ...pageData, title: e.target.value });
   };
+
   const handleItemTitles = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number
   ) => {
-    const newTitles = [...itemTitles];
-    newTitles[i] = e.target.value;
-    setItemTitles(newTitles);
+    const newItems = [...items];
+    newItems[i].title = e.target.value;
+    setItems(newItems);
+    setPageData({ ...pageData, items: newItems });
   };
+
   const handleItemContents = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
     i: number
   ) => {
-    const newContents = [...itemContents];
-    newContents[i] = e.target.value;
-    setItemContents(newContents);
-  };
-
-  const saveSplitPage = async () => {
-    const fileURLs = [];
-    if (file1) {
-      const imageURL1 = await getUploadedImageURL(file1);
-      if (imageURL1 === "error") {
-        setToast("Error uploading image!");
-        return;
-      } else fileURLs.push(imageURL1);
-    } else fileURLs.push("");
-    if (file2) {
-      const imageURL2 = await getUploadedImageURL(file2);
-      if (imageURL2 === "error") {
-        setToast("Error uploading image!");
-        return;
-      } else fileURLs.push(imageURL2);
-    } else fileURLs.push("");
-
-    const colorData = formatColorData({ page, current, bgColor, color });
-    const textData = formatTextArrayData({
-      page,
-      current,
-      title,
-      itemTitles,
-      itemContents,
-    });
-    const imageData = formatImageArrayData({
-      page,
-      current,
-      fileURLs,
-    });
-
-    const data = {
-      ...colorData,
-      ...textData,
-      ...imageData,
-    };
-
-    // clear old images from S3
-    if (JSON.stringify(imageData) !== "{}") {
-      let originalImageId = "";
-      for (let i = 0; i < fileURLs.length; i++) {
-        if (page.items && fileURLs[i] !== "")
-          originalImageId = page.items[i].imageURL?.split("/")[3] ?? "";
-        if (originalImageId !== "") await deleteImageById(originalImageId);
-      }
-    }
-
-    // send data to action and refetch
-    if (JSON.stringify(data) !== "{}") {
-      await updateWrapPage(id, { $set: data });
-      setWrap(await getWrapById(id));
-      setFile1(undefined);
-      setFile2(undefined);
-      setFileURL1(undefined);
-      setFileURL2(undefined);
-      setToast("Saved page!");
-    }
+    const newItems = [...items];
+    newItems[i].content = e.target.value;
+    setItems(newItems);
+    setPageData({ ...pageData, items: newItems });
   };
 
   return (
     <div className="w-full h-dvh flex flex-col items-center justify-center text-center overflow-hidden">
-      {editing && page && (
-        <>
-          <EditBar
-            id={id}
-            page={page}
-            length={wrap.pages.length}
-            setBgColor={setBgColor}
-            setColor={setColor}
-            savePage={saveSplitPage}
-            toggleAddModal={toggleAddModal}
-            toggleDeleteModal={toggleDeleteModal}
-          />
-
-          {showAddModal && (
-            <AddModal
-              id={id}
-              current={current}
-              setWrap={setWrap}
-              setToast={setToast}
-              toggleModal={toggleAddModal}
-            />
-          )}
-
-          {showDeleteModal && (
-            <DeleteModal
-              id={id}
-              current={current}
-              setWrap={setWrap}
-              setToast={setToast}
-              toggleModal={toggleDeleteModal}
-            />
-          )}
-        </>
-      )}
-
       <AnimateIn
         from="opacity-0 -translate-y-4"
         to="opacity-100 translate-y-0"
@@ -203,14 +87,17 @@ const SplitTemplate = (props: Template) => {
                 delay={250 * (i + 2)}
                 className="flex flex-col items-center justify-center gap-2"
               >
-                <div className="aspect-video w-[65dvw] sm:w-[60dvw] md:w-[32dvw]">
+                <div className="w-[65dvw] sm:w-[60dvw] md:w-[32dvw]">
                   <ImageComponent
                     src={item.imageURL}
+                    i={i}
                     editing={editing}
-                    file={eval(`file${i + 1}`)}
-                    fileURL={eval(`fileURL${i + 1}`)}
-                    setFile={eval(`setFile${i + 1}`)}
-                    setFileURL={eval(`setFileURL${i + 1}`)}
+                    files={files}
+                    fileURLs={fileURLs}
+                    pageImageData={pageImageData}
+                    setFiles={setFiles}
+                    setFileURLs={setFileURLs}
+                    setPageImageData={setPageImageData}
                   />
                 </div>
 
@@ -241,8 +128,6 @@ const SplitTemplate = (props: Template) => {
             </div>
           ))}
       </div>
-
-      <Toast toast={toast} setToast={setToast} />
     </div>
   );
 };

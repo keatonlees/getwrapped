@@ -1,31 +1,48 @@
 import React, { useState } from "react";
 
-import { updateWrapPage } from "@/app/make/actions";
+import { deleteImageById, updateWrapPage } from "@/app/make/actions";
 import { getWrapById } from "@/app/view/actions";
 
-import { Wrap } from "@/lib/utils/interfaces";
+import { Page, Wrap } from "@/lib/utils/interfaces";
 
 interface DeleteModal {
   id: string;
+  page: Page;
   current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
   setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
   setToast: React.Dispatch<React.SetStateAction<string>>;
   toggleModal: () => void;
 }
 
 const DeleteModal = (props: DeleteModal) => {
-  const { id, current, setWrap, setToast, toggleModal } = props;
+  const { id, page, current, setCurrent, setWrap, setToast, toggleModal } =
+    props;
 
   const [loading, setLoading] = useState(false);
 
   const deletePage = async () => {
     setLoading(true);
 
+    // delete image from AWS S3 if it exists
+    if (page.items) {
+      page.items.forEach((item) => {
+        if (item.imageURL) {
+          const oldImageId = item.imageURL.split("/")[3] ?? "";
+          if (oldImageId) deleteImageById(oldImageId);
+        }
+      });
+    }
+
+    // TODO: predictive success here?
     await updateWrapPage(id, { $unset: { [`pages.${current}`]: null } });
     await updateWrapPage(id, { $pull: { pages: null } });
     setWrap(await getWrapById(id));
-    setToast("Deleted page!");
+
     toggleModal();
+    setCurrent(current - 1);
+    setToast("Deleted page!");
+
     setLoading(false);
   };
 

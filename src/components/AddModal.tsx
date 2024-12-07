@@ -4,18 +4,20 @@ import React from "react";
 import { updateWrapPage } from "@/app/make/actions";
 import { getWrapById } from "@/app/view/actions";
 
+import { alternatingPage, singlePage, splitPage } from "@/lib/utils/constants";
 import { Wrap } from "@/lib/utils/interfaces";
 
 interface AddModal {
   id: string;
   current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
   setWrap: React.Dispatch<React.SetStateAction<Wrap>>;
   setToast: React.Dispatch<React.SetStateAction<string>>;
   toggleModal: () => void;
 }
 
 const AddModal = (props: AddModal) => {
-  const { id, current, setWrap, setToast, toggleModal } = props;
+  const { id, current, setCurrent, setWrap, setToast, toggleModal } = props;
 
   const [loading, setLoading] = React.useState(false);
   const newPages = [singlePage, splitPage, alternatingPage];
@@ -28,6 +30,7 @@ const AddModal = (props: AddModal) => {
     });
     setWrap(await getWrapById(id));
     toggleModal();
+    setCurrent(current + 1);
     setToast("Added page!");
     setLoading(false);
   };
@@ -78,58 +81,3 @@ const AddModal = (props: AddModal) => {
 };
 
 export default AddModal;
-
-const singlePage = {
-  type: "single",
-  bgColor: "#121c22",
-  color: "#9fb9d0",
-  title: "This is a title",
-  content: "This is content",
-  imageURL: "",
-};
-const splitPage = {
-  type: "split",
-  bgColor: "#121c22",
-  color: "#9fb9d0",
-  title: "Split Page",
-  items: [
-    {
-      title: "Title 1",
-      content: "Content 1",
-      imageURL: "",
-    },
-    {
-      title: "Title 2",
-      content: "Content 2",
-      imageURL: "",
-    },
-  ],
-};
-const alternatingPage = {
-  type: "alternating",
-  bgColor: "#121c22",
-  color: "#9fb9d0",
-  title: "Alternating Page",
-  items: [
-    {
-      title: "Title 1",
-      content: "Content 1",
-      imageURL: "",
-    },
-    {
-      title: "Title 2",
-      content: "Content 2",
-      imageURL: "",
-    },
-    {
-      title: "Title 3",
-      content: "Content 3",
-      imageURL: "",
-    },
-    {
-      title: "Title 4",
-      content: "Content 4",
-      imageURL: "",
-    },
-  ],
-};

@@ -13,6 +13,7 @@
     "@aws-sdk/s3-request-presigner": "^3.688.0",
     "eslint-plugin-import": "^2.31.0",
     "firebase": "^11.0.2",
+    "lodash": "^4.17.21",
     "mongodb": "^6.10.0",
     "mxcn": "^2.0.0",
     "next": "15.0.2",
@@ -23,6 +24,7 @@
     "vercel": "^37.14.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.13",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-color": "^3.0.12",
