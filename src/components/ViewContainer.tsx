@@ -49,6 +49,8 @@ const ViewContainer = (props: ViewContainer) => {
   const toggleAddModal = () => setShowAddModal(!showAddModal);
   const toggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
 
+  sessionStorage.setItem("path", `/make?id=${wrap._id.toString()}`);
+
   // live update background and font colors
   useEffect(() => {
     const viewContainer = document.getElementById(

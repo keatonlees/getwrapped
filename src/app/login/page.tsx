@@ -18,9 +18,14 @@ const Login = () => {
 
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
+  const pathHistory = sessionStorage.getItem("path");
+
   useEffect(() => {
-    if (user) return router.push("/wraps");
-  }, [user, router]);
+    if (user) {
+      if (pathHistory) return router.push(pathHistory);
+      return router.push("/wraps");
+    }
+  }, [user, router, pathHistory]);
 
   const handleLogin = async () => {
     try {
@@ -28,7 +33,10 @@ const Login = () => {
 
       if (res) {
         sessionStorage.setItem("user", res.user.uid);
-        router.push("/wraps");
+
+        if (pathHistory) router.push(pathHistory);
+        else router.push("/wraps");
+
         setEmail("");
         setPassword("");
       }

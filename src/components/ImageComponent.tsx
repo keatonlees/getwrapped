@@ -5,6 +5,7 @@ import { TbUpload, TbTrashXFilled } from "react-icons/tb";
 import placeholder from "../../public/placeholder.svg";
 
 interface ImageComponent {
+  shape?: string;
   src: string | undefined;
   i: number;
   editing: boolean;
@@ -18,6 +19,7 @@ interface ImageComponent {
 
 const ImageComponent = (props: ImageComponent) => {
   const {
+    shape = "video",
     src,
     i,
     editing,
@@ -70,13 +72,15 @@ const ImageComponent = (props: ImageComponent) => {
       <img
         src={fileURLs[i] || src || placeholder.src}
         alt="file"
-        className="aspect-video object-cover"
+        className={`${
+          shape === "video" ? "aspect-video" : "aspect-square"
+        }  object-cover`}
       />
 
       {/* Upload Button */}
       {editing && (
-        <label className="btn btn-primary btn-sm absolute bottom-2 left-2">
-          <TbUpload className="text-xl" />
+        <label className="btn btn-primary btn-sm absolute bottom-1 left-1 rounded-lg">
+          <TbUpload className="text-lg" />
           <input
             type="file"
             className="hidden"
@@ -90,10 +94,10 @@ const ImageComponent = (props: ImageComponent) => {
       {/* Discard Button */}
       {fileURLs[i] && files[i] && pageImageData[i] && (
         <button
-          className="btn-error btn-sm absolute bottom-2 right-2 btn"
+          className="btn btn-error btn-sm absolute bottom-1 right-1 rounded-lg"
           onClick={handleDiscard}
         >
-          <TbTrashXFilled className="text-xl" />
+          <TbTrashXFilled className="text-lg" />
         </button>
       )}
     </div>

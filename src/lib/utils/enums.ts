@@ -1,13 +1,13 @@
 export enum PageType {
   TITLE = "title",
+  STATS = "stats",
   SINGLE = "single",
   SPLIT = "split",
-  COLUMNS = "columns",
   ROWS = "rows",
   ALTERNATING = "alternating",
-  // QUARTERS = "quarters",
-  COLLAGE = "collage",
-  BENTOBOX = "bentobox",
-  MEDIA = "media",
+  SUMMARY = "summary",
+  // COLLAGE = "collage",
+  // BENTOBOX = "bentobox",
+  // MEDIA = "media",
   CREDITS = "credits",
 }
