@@ -45,14 +45,13 @@ const ViewContainer = (props: ViewContainer) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  // TODO: add animations to these
   const toggleAddModal = () => setShowAddModal(!showAddModal);
   const toggleDeleteModal = () => setShowDeleteModal(!showDeleteModal);
 
-  sessionStorage.setItem("path", `/make?id=${wrap._id.toString()}`);
-
   // live update background and font colors
   useEffect(() => {
+    sessionStorage.setItem("path", `/make?id=${wrap._id.toString()}`);
+
     const viewContainer = document.getElementById(
       "view-container"
     ) as HTMLElement;

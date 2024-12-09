@@ -13,9 +13,8 @@ const Wraps = () => {
   const router = useRouter();
   const [user] = useAuthState(auth);
 
-  sessionStorage.setItem("path", "/wraps");
-
   useEffect(() => {
+    sessionStorage.setItem("path", "/wraps");
     if (!user) return router.push("/login");
   }, [user, router]);
 
