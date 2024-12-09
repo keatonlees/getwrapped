@@ -5,6 +5,7 @@ import { Template } from "@/lib/utils/interfaces";
 
 const TitleTemplate = (props: Template) => {
   const { editing, wrap, current, pageData, setPageData } = props;
+
   const page = wrap.pages[current];
 
   const [title, setTitle] = useState(page.title || "");

@@ -6,9 +6,11 @@ import { Template } from "@/lib/utils/interfaces";
 import AlternatingTemplate from "./templates/AlternatingTemplate";
 // import ColumnsTemplate from "./templates/ColumnsTemplate";
 import CreditsTemplate from "./templates/CreditsTemplate";
-// import RowsTemplate from "./templates/RowsTemplate";
+import RowsTemplate from "./templates/RowsTemplate";
 import SingleTemplate from "./templates/SingleTemplate";
 import SplitTemplate from "./templates/SplitTemplate";
+import StatsTemplate from "./templates/StatsTemplate";
+import SummaryTemplate from "./templates/SummaryTemplate";
 import TitleTemplate from "./templates/TitleTemplate";
 
 const RenderSwitch = (props: Template) => {
@@ -38,20 +40,23 @@ const RenderSwitch = (props: Template) => {
     case PageType.TITLE:
       return <TitleTemplate {...template} />;
 
+    case PageType.STATS:
+      return <StatsTemplate {...template} />;
+
     case PageType.SINGLE:
       return <SingleTemplate {...template} />;
 
     case PageType.SPLIT:
       return <SplitTemplate {...template} />;
 
-    // case PageType.COLUMNS:
-    //   return <ColumnsTemplate {...template} />;
-
-    // case PageType.ROWS:
-    //   return <RowsTemplate {...template} />;
+    case PageType.ROWS:
+      return <RowsTemplate {...template} />;
 
     case PageType.ALTERNATING:
       return <AlternatingTemplate {...template} />;
+
+    case PageType.SUMMARY:
+      return <SummaryTemplate {...template} />;
 
     case PageType.CREDITS:
       return <CreditsTemplate {...template} />;

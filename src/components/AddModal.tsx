@@ -4,7 +4,14 @@ import React from "react";
 import { updateWrapPage } from "@/app/make/actions";
 import { getWrapById } from "@/app/view/actions";
 
-import { alternatingPage, singlePage, splitPage } from "@/lib/utils/constants";
+import {
+  alternatingPage,
+  rowsPage,
+  singlePage,
+  splitPage,
+  statsPage,
+  summaryPage,
+} from "@/lib/utils/constants";
 import { Wrap } from "@/lib/utils/interfaces";
 
 interface AddModal {
@@ -20,7 +27,14 @@ const AddModal = (props: AddModal) => {
   const { id, current, setCurrent, setWrap, setToast, toggleModal } = props;
 
   const [loading, setLoading] = React.useState(false);
-  const newPages = [singlePage, splitPage, alternatingPage];
+  const newPages = [
+    singlePage,
+    splitPage,
+    alternatingPage,
+    rowsPage,
+    statsPage,
+    summaryPage,
+  ];
 
   const addPage = async (pageTemplate: object) => {
     setLoading(true);

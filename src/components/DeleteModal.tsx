@@ -34,7 +34,6 @@ const DeleteModal = (props: DeleteModal) => {
       });
     }
 
-    // TODO: predictive success here?
     await updateWrapPage(id, { $unset: { [`pages.${current}`]: null } });
     await updateWrapPage(id, { $pull: { pages: null } });
     setWrap(await getWrapById(id));

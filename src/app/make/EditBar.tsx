@@ -1,6 +1,7 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 import { FaSave, FaPlus } from "react-icons/fa";
-import { TbTrashXFilled, TbExternalLink } from "react-icons/tb";
+import { TbTrashXFilled, TbExternalLink, TbArrowBackUp } from "react-icons/tb";
 
 import { baseURL } from "@/lib/utils/constants";
 import { Page } from "@/lib/utils/interfaces";
@@ -18,6 +19,8 @@ interface EditBar {
 }
 
 const EditBar = (props: EditBar) => {
+  const router = useRouter();
+
   const {
     id,
     page,
@@ -29,6 +32,10 @@ const EditBar = (props: EditBar) => {
     toggleAddModal,
     toggleDeleteModal,
   } = props;
+
+  const allWraps = () => {
+    router.push("/wraps");
+  };
 
   const resetBgColor = () => {
     (document.getElementById("bgColorInput") as HTMLInputElement).value =
@@ -50,6 +57,11 @@ const EditBar = (props: EditBar) => {
 
   return (
     <div className="flex h-12 items-center justify-center absolute top-4 gap-2">
+      <button onClick={allWraps} className="btn btn-info btn-md hidden md:flex">
+        <TbArrowBackUp className="text-xl" />
+        <span className="hidden md:block">All Wraps</span>
+      </button>
+
       <button onClick={savePage} className="btn btn-primary btn-md">
         {saveLoading ? (
           <span className="loading loading-spinner loading-sm"></span>
