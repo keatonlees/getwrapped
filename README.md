@@ -10,6 +10,6 @@ Have you ever wanted to make your own Spotify Wrapped for any occasion? Get Wrap
 - TypeScript
 - TailwindCSS
 - MongoDB (text based data)
-- AWS S3 (images)
+- AWS S3 (image data)
 - Firebase Auth
 - Vercel Hosting
